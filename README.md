@@ -1,2 +1,3 @@
 # HBT-Solitaire
-HBT Solitaire card game for the web.
+
+This github hosts the source for http://juxtaposition.rocks/hbt/ .
