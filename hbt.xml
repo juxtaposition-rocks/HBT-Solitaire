@@ -3,54 +3,181 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <head><title>HBT Solitaire</title><style>
 
-.card {
-  position: absolute;
-  top: 100px;
-  left: 400px;
+.message {
+  margin: 20px;
   border: 4px solid black;
   border-radius: 6px;
-  padding: 0px 4px;
-  width: 100px;
-  height: 150px;
-  background: #FFFFFF;
+  padding: 6px;
+  background: white;
+  color: black;
+  font-family: Verdana, Serif;
+  font-size: 25px;
+}
+
+.card {
+  position: absolute;
+  display: none;
+  border: 3px solid black;
+  border-radius: 7px;
+  padding: 0;
+  width: 110px;
+  height: 155px;
+  background: #CCCCFF;
   font-family: Verdana, Serif;
   font-size: 20px;
-  font-weight: bold
+  font-weight: bold;
   white-space: nowrap;
+}
+
+.redsuit {
+  border: 3px solid white;
+  border-radius: 7px;
+  background: white;
+  color: red;
+  height: 149px;
+}
+
+.blacksuit {
+  border: 3px solid white;
+  border-radius: 7px;
+  background: white;
+  color: black;
+  height: 149px;
+}
+
+.trump {
+  border: 3px solid #FFFF99;
+  background: #FFFFCC;
 }
 
 </style><script> // <![CDATA[
 
+function shuffle(a) {
+  for (var i = 0; i < a.length; ++i) {
+    var r = Math.floor(Math.random() * a.length);
+    var tmp = a[i];
+    a[i] = a[r];
+    a[r] = tmp;
+  }
+  return a;
+};
+
+var main_deck = shuffle(["c7", "c8", "c9", "cx", "ca", "cq", "ck", "s7", "s8", "s9", "sx", "sq", "sk", "d7", "d8", "d9", "dx", "da", "dq", "dk", "h7", "h8", "h9", "hx", "ha", "hq", "hk"]);
+
+var small_deck = ["cj", "sj", "dj", "hj", "sa"];
+
 function StartGame() {
   document.getElementById("startdiv").style.display = "none";
-  
-  for (i = 7 ; i <= 10; ++i) {
-    document.getElementById("c"+i).style.left = "200px";
-    document.getElementById("c"+i).style.top = (50 + i*30) + "px";
+  document.getElementById("showspecial").style.display = "block";
+ 
+  small_deck.push(main_deck.pop());
+ 
+  for (i = 0 ; i < 6; ++i) {
+    var elem;
+   
+    elem = document.getElementById(small_deck[i]);
+    elem.style.left = (20 + i*125) + "px";
+    elem.style.top =  "200px";
+    elem.style.display = "block";
+  }
+};
+
+var piles = [
+  [],
+  [],
+  [],
+  [],
+  [],
+  []
+];
+
+function StartPlaying() {
+  document.getElementById("showspecial").style.display = "none";
+ 
+  for (i = 0 ; i < 6; ++i) {
+    var elem;
+   
+    elem = document.getElementById(small_deck[i] + "_front");
+    elem.style.display = "none";
+  }
+ 
+  small_deck = shuffle(small_deck);
+ 
+  for (z = 0; z < 10; ++z) {
+    for (iPile = 0; iPile < 3; ++iPile) {
+      if (piles[iPile].length % 5 == 2) {
+        piles[iPile].push(small_deck.pop());
+      }
+      else {
+        piles[iPile].push(main_deck.pop());
+      }
+      var elem = document.getElementById(piles[iPile][z]);
+      elem.style["z-index"] = z;
+      elem.style.left = (15 + 130 * iPile) + "px";
+      elem.style.top = (10 + 35 * z) + "px";
+      elem.style.display = "block";
+    }
+  }
+ 
+  z = 0;
+  for (iPile = 4; iPile < 6; ++iPile) {
+    piles[iPile].push(main_deck.pop());
+    var elem = document.getElementById(piles[iPile][z]);
+    elem.style["z-index"] = z;
+    elem.style.left = (15 + 130 * iPile) + "px";
+    elem.style.top = (10 + 35 * z) + "px";
+    elem.style.display = "block";
   }
 };
 
 // ]]>
 </script></head><body style="background: #339955">
 
-<div id="c7" class="card">♣7</div>
-<div id="c8" class="card">♣8</div>
-<div id="c9" class="card">♣9</div>
-<div id="c10" class="card">♣10</div>
-<div id="s9" class="card">♠️9</div>
+<div id="cj" class="card"><div id="cj_front" class="blacksuit trump">♣J</div></div>
+<div id="c7" class="card"><div id="c7_front" class="blacksuit">♣7</div></div>
+<div id="c8" class="card"><div id="c8_front" class="blacksuit">♣8</div></div>
+<div id="c9" class="card"><div id="c9_front" class="blacksuit">♣9</div></div>
+<div id="cx" class="card"><div id="cx_front" class="blacksuit">♣10</div></div>
+<div id="ca" class="card"><div id="ca_front" class="blacksuit">♣A</div></div>
+<div id="cq" class="card"><div id="cq_front" class="blacksuit">♣Q</div></div>
+<div id="ck" class="card"><div id="ck_front" class="blacksuit">♣K</div></div>
 
-<div id="startdiv" style="
-  margin: 20px;
-  border: 4px solid black;
-  border-radius: 6px;
-  padding: 6px;
-  background: #FFFFFF;
-  color: #000000;
-  font-family: Verdana, Serif;
-">
+<div id="sj" class="card"><div id="sj_front" class="blacksuit trump">♠️J</div></div>
+<div id="s7" class="card"><div id="s7_front" class="blacksuit">♠️7</div></div>
+<div id="s8" class="card"><div id="s8_front" class="blacksuit">♠️8</div></div>
+<div id="s9" class="card"><div id="s9_front" class="blacksuit">♠️9</div></div>
+<div id="sx" class="card"><div id="sx_front" class="blacksuit">♠️10</div></div>
+<div id="sa" class="card"><div id="sa_front" class="blacksuit trump">♠️A</div></div>
+<div id="sq" class="card"><div id="sq_front" class="blacksuit">♠️Q</div></div>
+<div id="sk" class="card"><div id="sk_front" class="blacksuit">♠️K</div></div>
+
+<div id="dj" class="card"><div id="dj_front" class="redsuit trump">♦J</div></div>
+<div id="d7" class="card"><div id="d7_front" class="redsuit">♦7</div></div>
+<div id="d8" class="card"><div id="d8_front" class="redsuit">♦8</div></div>
+<div id="d9" class="card"><div id="d9_front" class="redsuit">♦9</div></div>
+<div id="dx" class="card"><div id="dx_front" class="redsuit">♦10</div></div>
+<div id="da" class="card"><div id="da_front" class="redsuit">♦A</div></div>
+<div id="dq" class="card"><div id="dq_front" class="redsuit trump">♦Q</div></div>
+<div id="dk" class="card"><div id="dk_front" class="redsuit">♦K</div></div>
+
+<div id="hj" class="card"><div id="hj_front" class="redsuit trump">♥J</div></div>
+<div id="h7" class="card"><div id="h7_front" class="redsuit">♥7</div></div>
+<div id="h8" class="card"><div id="h8_front" class="redsuit">♥8</div></div>
+<div id="h9" class="card"><div id="h9_front" class="redsuit">♥9</div></div>
+<div id="hx" class="card"><div id="hx_front" class="redsuit">♥10</div></div>
+<div id="ha" class="card"><div id="ha_front" class="redsuit">♥A</div></div>
+<div id="hq" class="card"><div id="hq_front" class="redsuit">♥Q</div></div>
+<div id="hk" class="card"><div id="hk_front" class="redsuit trump">♥K</div></div>
+
+<div id="startdiv" class="message">
   <div>Welcome to HBT Solitaire!</div>
   <noscript><div>No script? This button will not do anything!</div></noscript>
   <button id="startbutton" onclick="StartGame();">Start Game</button>
+</div>
+
+<div id="showspecial" class="message" style="display: none">
+  <div>These cards will be face-down.</div>
+  <button id="startbutton" onclick="StartPlaying();">Ok</button>
 </div>
 
 </body></html>
