@@ -69,12 +69,12 @@ var small_deck = ["cj", "sj", "dj", "hj", "sa"];
 function StartGame() {
   document.getElementById("startdiv").style.display = "none";
   document.getElementById("showspecial").style.display = "block";
- 
+  
   small_deck.push(main_deck.pop());
- 
+  
   for (i = 0 ; i < 6; ++i) {
     var elem;
-   
+    
     elem = document.getElementById(small_deck[i]);
     elem.style.left = (20 + i*125) + "px";
     elem.style.top =  "200px";
@@ -93,16 +93,16 @@ var piles = [
 
 function StartPlaying() {
   document.getElementById("showspecial").style.display = "none";
- 
+  
   for (i = 0 ; i < 6; ++i) {
     var elem;
-   
+    
     elem = document.getElementById(small_deck[i] + "_front");
     elem.style.display = "none";
   }
- 
+  
   small_deck = shuffle(small_deck);
- 
+  
   for (z = 0; z < 10; ++z) {
     for (iPile = 0; iPile < 3; ++iPile) {
       if (piles[iPile].length % 5 == 2) {
@@ -118,7 +118,7 @@ function StartPlaying() {
       elem.style.display = "block";
     }
   }
- 
+  
   z = 0;
   for (iPile = 4; iPile < 6; ++iPile) {
     piles[iPile].push(main_deck.pop());
