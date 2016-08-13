@@ -195,7 +195,7 @@ function startPlaying() {
       elem.style.display = "block";
       if (z==9) { elem.style.cursor = "move"; }
 
-      elem.addEventListener("mousedown", function(event) { downclickCard(event, iPile, z) }, false);
+      elem.addEventListener("mousedown", downclickCard, false);
       elem.addEventListener("mouseup", clickupCard, false);
     }
   }
