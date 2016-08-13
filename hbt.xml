@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<head><title>HBT Solitaire</title><style>
+<head><title>HBT Solitaire</title><!--
+    HBT Solitaire
+    Copyright (c) 2016
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--><style>
 
 .message {
-  margin: 20px;
-  border: 4px solid black;
+  margin: 10px;
+  border: 2px solid black;
   border-radius: 6px;
   padding: 6px;
   background: white;
   color: black;
-  font-family: Verdana, Serif;
+  font-family: Verdana, serif;
   font-size: 25px;
 }
 
@@ -23,7 +39,7 @@
   width: 110px;
   height: 155px;
   background: #CCCCFF;
-  font-family: Verdana, Serif;
+  font-family: Verdana, serif;
   font-size: 20px;
   font-weight: bold;
   white-space: nowrap;
@@ -62,22 +78,45 @@ function shuffle(a) {
   return a;
 };
 
-var main_deck = shuffle(["c7", "c8", "c9", "cx", "ca", "cq", "ck", "s7", "s8", "s9", "sx", "sq", "sk", "d7", "d8", "d9", "dx", "da", "dq", "dk", "h7", "h8", "h9", "hx", "ha", "hq", "hk"]);
+function calcTop(iPile, iCard) {
+  if (iPile==0 || iPile==1 || iPile==2) {
+    return (165 + 35 * iCard) + "px";
+  }
+  if (iPile==3 || iPile==4 || iPile==5) {
+    return (165) + "px";
+  }
+  if (iPile==7 || iPile==8) {
+    return (10) + "px";
+  }
+};
 
-var small_deck = ["cj", "sj", "dj", "hj", "sa"];
+function calcLeft(iPile, iCard) {
+  if (iPile==0 || iPile==1 || iPile==2) {
+    return (15 + 130 * iPile) + "px";
+  }
+  if (iPile==3 || iPile==4 || iPile==5) {
+    return (25 + 130 * iPile) + "px";
+  }
+  if (iPile==7) {
+    return (25 + 130 * 3 + 35 * iCard) + "px";
+  }
+  if (iPile==8) {
+    return (25 + 130 * 5) + "px";
+  }
+};
 
-function StartGame() {
+var mainDeck = shuffle(["c7", "c8", "c9", "cx", "ca", "cq", "ck", "s7", "s8", "s9", "sx", "sq", "sk", "d7", "d8", "d9", "dx", "da", "dq", "dk", "h7", "h8", "h9", "hx", "ha", "hq", "hk"]);
+
+var smallDeck = ["cj", "sj", "dj", "hj", "sa"];
+
+function startGame() {
   document.getElementById("startdiv").style.display = "none";
   document.getElementById("showspecial").style.display = "block";
-  
-  small_deck.push(main_deck.pop());
-  
+  smallDeck.push(mainDeck.pop());
   for (i = 0 ; i < 6; ++i) {
-    var elem;
-    
-    elem = document.getElementById(small_deck[i]);
+    var elem = document.getElementById(smallDeck[i]);
     elem.style.left = (20 + i*125) + "px";
-    elem.style.top =  "200px";
+    elem.style.top =  "165px";
     elem.style.display = "block";
   }
 };
@@ -91,47 +130,93 @@ var piles = [
   []
 ];
 
-function StartPlaying() {
+function findPlacement(card) {
+  for (iPile=0; iPile<6; ++iPile) {
+    for (z = 0; z < piles[iPile].length; ++z) {
+      if (piles[iPile][z] == card) {
+        return {pile: iPile, index: z, top: (z == piles[iPile].length - 1)};
+      }
+    }
+  }
+  //alert("failed to find: " + card);
+  return false;
+}
+
+function downclickCard(event) {
+  var elem = event.target;
+  var placement = findPlacement(elem.id);
+  while (!placement) {
+    elem = elem.parentNode;
+    placement = findPlacement(elem.id);
+  }
+  if (placement.top) {
+    var card = piles[iPile][z];
+    var elem = document.getElementById(card);
+    elem.style.opacity = 0.2;
+  }
+  event.stopPropagation();
+}
+
+function clickupCard(event) {
+  var elem = event.target;
+  var placement = findPlacement(elem.id);
+  while (!placement) {
+    elem = elem.parentNode;
+    placement = findPlacement(elem.id);
+  }
+  if (placement.top) {
+    var card = piles[iPile][z];
+    var elem = document.getElementById(card);
+    elem.style.opacity = 1.0;
+  }
+  event.stopPropagation();
+}
+
+function startPlaying() {
   document.getElementById("showspecial").style.display = "none";
-  
   for (i = 0 ; i < 6; ++i) {
-    var elem;
-    
-    elem = document.getElementById(small_deck[i] + "_front");
+    var elem = document.getElementById(smallDeck[i] + "_front");
     elem.style.display = "none";
   }
-  
-  small_deck = shuffle(small_deck);
+  smallDeck = shuffle(smallDeck);
   
   for (z = 0; z < 10; ++z) {
     for (iPile = 0; iPile < 3; ++iPile) {
       if (piles[iPile].length % 5 == 2) {
-        piles[iPile].push(small_deck.pop());
+        piles[iPile].push(smallDeck.pop());
       }
       else {
-        piles[iPile].push(main_deck.pop());
+        piles[iPile].push(mainDeck.pop());
       }
       var elem = document.getElementById(piles[iPile][z]);
       elem.style["z-index"] = z;
-      elem.style.left = (15 + 130 * iPile) + "px";
-      elem.style.top = (10 + 35 * z) + "px";
+      elem.style.top = calcTop(iPile, z);
+      elem.style.left = calcLeft(iPile, z);
       elem.style.display = "block";
+      if (z==9) { elem.style.cursor = "move"; }
+
+      elem.addEventListener("mousedown", function(event) { downclickCard(event, iPile, z) }, false);
+      elem.addEventListener("mouseup", clickupCard, false);
     }
   }
   
   z = 0;
   for (iPile = 4; iPile < 6; ++iPile) {
-    piles[iPile].push(main_deck.pop());
+    piles[iPile].push(mainDeck.pop());
     var elem = document.getElementById(piles[iPile][z]);
     elem.style["z-index"] = z;
-    elem.style.left = (15 + 130 * iPile) + "px";
-    elem.style.top = (10 + 35 * z) + "px";
+    elem.style.top = calcTop(iPile, z);
+    elem.style.left = calcLeft(iPile, z);
     elem.style.display = "block";
   }
 };
 
 // ]]>
 </script></head><body style="background: #339955">
+
+<div id="aboutdiv" style="margin: 0; border: 0; padding: 0px; text-align: center; color: #003300; font-size: 9px; font-family: sans-serif">
+  <div>Powered by some hand-coded JavaScript, CSS, and HTML. Use your browser's "view page source" feature to see it all.</div>
+</div>
 
 <div id="cj" class="card"><div id="cj_front" class="blacksuit trump">♣J</div></div>
 <div id="c7" class="card"><div id="c7_front" class="blacksuit">♣7</div></div>
@@ -172,12 +257,12 @@ function StartPlaying() {
 <div id="startdiv" class="message">
   <div>Welcome to HBT Solitaire!</div>
   <noscript><div>No script? This button will not do anything!</div></noscript>
-  <button id="startbutton" onclick="StartGame();">Start Game</button>
+  <button id="startbutton" onclick="startGame();">Start Game</button>
 </div>
 
 <div id="showspecial" class="message" style="display: none">
   <div>These cards will be face-down.</div>
-  <button id="startbutton" onclick="StartPlaying();">Ok</button>
+  <button id="startbutton" onclick="startPlaying();">Ok</button>
 </div>
 
 </body></html>
