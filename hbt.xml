@@ -80,28 +80,28 @@ function shuffle(a) {
 
 function calcTop(iPile, iCard) {
   if (iPile==0 || iPile==1 || iPile==2) {
-    return (165 + 35 * iCard) + "px";
+    return (165 + 35 * iCard);
   }
   if (iPile==3 || iPile==4 || iPile==5) {
-    return (165) + "px";
+    return (165);
   }
   if (iPile==7 || iPile==8) {
-    return (10) + "px";
+    return (10);
   }
 };
 
 function calcLeft(iPile, iCard) {
   if (iPile==0 || iPile==1 || iPile==2) {
-    return (15 + 130 * iPile) + "px";
+    return (15 + 130 * iPile);
   }
   if (iPile==3 || iPile==4 || iPile==5) {
-    return (25 + 130 * iPile) + "px";
+    return (25 + 130 * iPile);
   }
   if (iPile==7) {
-    return (25 + 130 * 3 + 35 * iCard) + "px";
+    return (25 + 130 * 3 + 35 * iCard);
   }
   if (iPile==8) {
-    return (25 + 130 * 5) + "px";
+    return (25 + 130 * 5);
   }
 };
 
@@ -142,7 +142,41 @@ function findPlacement(card) {
   return false;
 }
 
+var mouseDragInfo = {
+  card: null,
+  startX: null,
+  startY: null
+};
+
+function respondToMouseMoveEvent(event) {
+  if (mouseDragInfo.card === null) {
+    //document.getElementById("debugtext").textContent = "(" + event.clientX + ", " + event.clientY + ")";
+  }
+  else {
+    var elem = document.getElementById(mouseDragInfo.card);
+    elem.style.opacity = 0.67;
+    
+    placement = findPlacement(mouseDragInfo.card);
+    
+    var dx = event.clientX - mouseDragInfo.startX;
+    var dy = event.clientY - mouseDragInfo.startY;
+    document.getElementById("debugtext").textContent =
+      "(" + mouseDragInfo.startX + ", " + mouseDragInfo.startY + ")" +
+      " + " +
+      "(" + dx + ", " + dy + ")" +
+      "\n" +
+      placement.pile + ", " + placement.index + "\n" +
+      "--- " + calcLeft(placement.pile, placement.index) + ", " + calcTop(placement.pile, placement.index) + "\n" +
+      "\n";
+    
+    elem.style.left = (calcLeft(placement.pile, placement.index) + dx) + "px";
+    elem.style.top = (calcTop(placement.pile, placement.index) + dy) + "px";
+  }
+}
+
 function downclickCard(event) {
+  //https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
+  
   var elem = event.target;
   var placement = findPlacement(elem.id);
   while (!placement) {
@@ -152,12 +186,23 @@ function downclickCard(event) {
   if (placement.top) {
     var card = piles[iPile][z];
     var elem = document.getElementById(card);
-    elem.style.opacity = 0.2;
+    elem.style.opacity = 0.33;
+    
+    document.getElementById("debugtext").textContent = "(" + event.clientX + ", " + event.clientY + ")";
+    mouseDragInfo.card = elem.id;
+    mouseDragInfo.startX = event.clientX;
+    mouseDragInfo.startY = event.clientY;
   }
   event.stopPropagation();
 }
 
 function clickupCard(event) {
+  //https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
+  document.getElementById("debugtext").textContent = "";
+  mouseDragInfo.startX = null;
+  mouseDragInfo.startY = null;
+  mouseDragInfo.card = null;
+  
   var elem = event.target;
   var placement = findPlacement(elem.id);
   while (!placement) {
@@ -190,13 +235,14 @@ function startPlaying() {
       }
       var elem = document.getElementById(piles[iPile][z]);
       elem.style["z-index"] = z;
-      elem.style.top = calcTop(iPile, z);
-      elem.style.left = calcLeft(iPile, z);
+      elem.style.top = calcTop(iPile, z) + "px";
+      elem.style.left = calcLeft(iPile, z) + "px";
       elem.style.display = "block";
       if (z==9) { elem.style.cursor = "move"; }
 
       elem.addEventListener("mousedown", downclickCard, false);
       elem.addEventListener("mouseup", clickupCard, false);
+      elem.addEventListener("mousemove", respondToMouseMoveEvent, false);
     }
   }
   
@@ -205,8 +251,8 @@ function startPlaying() {
     piles[iPile].push(mainDeck.pop());
     var elem = document.getElementById(piles[iPile][z]);
     elem.style["z-index"] = z;
-    elem.style.top = calcTop(iPile, z);
-    elem.style.left = calcLeft(iPile, z);
+    elem.style.top = calcTop(iPile, z) + "px";
+    elem.style.left = calcLeft(iPile, z) + "px";
     elem.style.display = "block";
   }
 };
@@ -217,6 +263,8 @@ function startPlaying() {
 <div id="aboutdiv" style="margin: 0; border: 0; padding: 0px; text-align: center; color: #003300; font-size: 9px; font-family: sans-serif">
   <div>Powered by some hand-coded JavaScript, CSS, and HTML. Use your browser's "view page source" feature to see it all.</div>
 </div>
+
+<div id="debugtext" style="margin: 0; border: 0; padding: 0px; color: #003300; font-size: 11px; font-family: monospace"></div>
 
 <div id="cj" class="card"><div id="cj_front" class="blacksuit trump">♣J</div></div>
 <div id="c7" class="card"><div id="c7_front" class="blacksuit">♣7</div></div>
