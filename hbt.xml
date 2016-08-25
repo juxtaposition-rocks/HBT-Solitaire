@@ -187,6 +187,7 @@ function downclickCard(event) {
     var card = piles[iPile][z];
     var elem = document.getElementById(card);
     elem.style.opacity = 0.33;
+    elem.style["z-index"] = 100;
     
     document.getElementById("debugtext").textContent = "(" + event.clientX + ", " + event.clientY + ")";
     mouseDragInfo.card = elem.id;
@@ -213,6 +214,7 @@ function clickupCard(event) {
     var card = piles[iPile][z];
     var elem = document.getElementById(card);
     elem.style.opacity = 1.0;
+    elem.style["z-index"] = placement.index;
   }
   event.stopPropagation();
 }
