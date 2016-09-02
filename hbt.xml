@@ -259,7 +259,7 @@ function startPlaying() {
 <div id="cq" class="card"><div id="cq_front" class="blacksuit">♣Q</div></div>
 <div id="ck" class="card"><div id="ck_front" class="blacksuit">♣K</div></div>
 
-<div id="sj" class="card"><div id="sj_front" class="blacksuit trump">♠J<︎/div></div>
+<div id="sj" class="card"><div id="sj_front" class="blacksuit trump">♠J</div></div>
 <div id="s7" class="card"><div id="s7_front" class="blacksuit">♠7</div></div>
 <div id="s8" class="card"><div id="s8_front" class="blacksuit">♠8</div></div>
 <div id="s9" class="card"><div id="s9_front" class="blacksuit">♠9</div></div>
