@@ -226,10 +226,12 @@ function startPlaying() {
       elem.style.display = "block";
       if (z==9) { elem.style.cursor = "move"; }
       elem.addEventListener("mousedown", downclickCard, false);
-      elem.addEventListener("mouseup", clickupCard, false);
+      //elem.addEventListener("mouseup", clickupCard, false);
       elem.addEventListener("mousemove", respondToMouseMoveEvent, false);
     }
   }
+  
+  document.addEventListener("mouseup", clickupCard, false);
   
   z = 0;
   for (iPile = 4; iPile < 6; ++iPile) {
