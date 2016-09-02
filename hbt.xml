@@ -4,14 +4,17 @@
 <head><title>HBT Solitaire</title><!--
     HBT Solitaire
     Copyright (c) 2016
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
     by the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Affero General Public License for more details.
+
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --><style>
@@ -64,6 +67,7 @@
 }
 
 </style><script> // <![CDATA[
+
 function shuffle(a) {
   for (var i = 0; i < a.length; ++i) {
     var r = Math.floor(Math.random() * a.length);
@@ -73,6 +77,7 @@ function shuffle(a) {
   }
   return a;
 };
+
 function calcTop(iPile, iCard) {
   if (iPile==0 || iPile==1 || iPile==2) {
     return (165 + 35 * iCard);
@@ -84,6 +89,7 @@ function calcTop(iPile, iCard) {
     return (10);
   }
 };
+
 function calcLeft(iPile, iCard) {
   if (iPile==0 || iPile==1 || iPile==2) {
     return (15 + 130 * iPile);
@@ -98,8 +104,11 @@ function calcLeft(iPile, iCard) {
     return (25 + 130 * 5);
   }
 };
+
 var mainDeck = shuffle(["c7", "c8", "c9", "cx", "ca", "cq", "ck", "s7", "s8", "s9", "sx", "sq", "sk", "d7", "d8", "d9", "dx", "da", "dq", "dk", "h7", "h8", "h9", "hx", "ha", "hq", "hk"]);
+
 var smallDeck = ["cj", "sj", "dj", "hj", "sa"];
+
 function startGame() {
   document.getElementById("startdiv").style.display = "none";
   document.getElementById("showspecial").style.display = "block";
@@ -111,6 +120,7 @@ function startGame() {
     elem.style.display = "block";
   }
 };
+
 var piles = [
   [],
   [],
@@ -119,6 +129,7 @@ var piles = [
   [],
   []
 ];
+
 function findPlacement(card) {
   for (iPile=0; iPile<6; ++iPile) {
     for (z = 0; z < piles[iPile].length; ++z) {
@@ -129,12 +140,14 @@ function findPlacement(card) {
   }
   //alert("failed to find: " + card);
   return false;
-}
+};
+
 var mouseDragInfo = {
   card: null,
   startX: null,
   startY: null
 };
+
 function respondToMouseMoveEvent(event) {
   if (mouseDragInfo.card === null) {
     //document.getElementById("debugtext").textContent = "(" + event.clientX + ", " + event.clientY + ")";
@@ -159,7 +172,8 @@ function respondToMouseMoveEvent(event) {
     elem.style.left = (calcLeft(placement.pile, placement.index) + dx) + "px";
     elem.style.top = (calcTop(placement.pile, placement.index) + dy) + "px";
   }
-}
+};
+
 function downclickCard(event) {
   //https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
   
@@ -181,7 +195,8 @@ function downclickCard(event) {
     mouseDragInfo.startY = event.clientY;
   }
   event.stopPropagation();
-}
+};
+
 function clickupCard(event) {
   //https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
   document.getElementById("debugtext").textContent = "";
@@ -202,7 +217,8 @@ function clickupCard(event) {
     elem.style["z-index"] = placement.index;
   }
   event.stopPropagation();
-}
+};
+
 function startPlaying() {
   document.getElementById("showspecial").style.display = "none";
   for (i = 0 ; i < 6; ++i) {
@@ -243,6 +259,7 @@ function startPlaying() {
     elem.style.display = "block";
   }
 };
+
 // ]]>
 </script></head><body style="background: #339955">
 
