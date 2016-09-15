@@ -182,6 +182,7 @@ function downclickCard(event) {
     };
   }
   event.stopPropagation();
+  event.preventDefault();
 };
 
 function calcDragCardTop() {
@@ -222,12 +223,10 @@ function respondToMouseMoveEvent(event) {
 };
 
 function dragCardCenterIsOverTopOfPile(pile) {
-  var cardCenterX = calcDragCardLeft() + (cardwidth / 2);
-  var cardCenterY = calcDragCardTop() + (cardheight / 2);
-  if (cardCenterX < pile.calcLeft(pile.cards.length)) { return false; }
-  if (cardCenterX > (pile.calcLeft(pile.cards.length) + cardwidth)) { return false; }
-  if (cardCenterY < pile.calcTop(pile.cards.length)) { return false; }
-  if (cardCenterY > (pile.calcTop(pile.cards.length) + cardheight)) { return false; }
+  if ((calcDragCardLeft() + (cardwidth / 2)) < pile.calcLeft(pile.cards.length)) { return false; }
+  if ((calcDragCardLeft() + (cardwidth / 2)) > (pile.calcLeft(pile.cards.length) + cardwidth)) { return false; }
+  if ((calcDragCardTop() + (cardheight * 3 / 4)) < pile.calcTop(pile.cards.length)) { return false; }
+  if ((calcDragCardTop() + (cardheight * 1 / 4)) > (pile.calcTop(pile.cards.length) + cardheight)) { return false; }
   return true;
 }
 
@@ -268,6 +267,7 @@ function upclick(event) {
     document.getElementById("debugtext").textContent = "";
   }
   event.stopPropagation();
+  event.preventDefault();
 };
 
 function startPlaying() {
