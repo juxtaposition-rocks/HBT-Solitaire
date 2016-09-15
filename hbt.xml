@@ -99,12 +99,12 @@ var piles = {
   "JackStack": {
     cards: [],
     calcTop: function(iCard) { return (10); },
-    calcLeft: function(iCard) { return (415 + 45 * iCard); }
+    calcLeft: function(iCard) { return (415 + 40 * iCard); }
   },
   "Discard": {
     cards: [],
     calcTop: function(iCard) { return (10); },
-    calcLeft: function(iCard) { return (15); }
+    calcLeft: function(iCard) { return (15 + 40 * iCard); }
   },
 };
 
