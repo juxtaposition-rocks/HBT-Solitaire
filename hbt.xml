@@ -63,48 +63,48 @@ var cardheight = 155;
 var piles = {
   "Left1": {
     cards: [],
-    calcTop: function(iCard) { return (165 + 35 * iCard); },
+    calcTop: function(iCard) { return (175 + 35 * iCard); },
     calcLeft: function(iCard) { return (15); }
   },
   "Left2": {
     cards: [],
-    calcTop: function(iCard) { return (165 + 35 * iCard); },
+    calcTop: function(iCard) { return (175 + 35 * iCard); },
     calcLeft: function(iCard) { return (145); }
   },
   "Left3": {
     cards: [],
-    calcTop: function(iCard) { return (165 + 35 * iCard); },
+    calcTop: function(iCard) { return (175 + 35 * iCard); },
     calcLeft: function(iCard) { return (275); }
   },
-  "Hand": {
+  "Flipped": {
     cards: [],
-    calcTop: function(iCard) { return (piles["Left1"].calcTop(10) + cardHeight + 10); },
-    calcLeft: function(iCard) { return (345); }
+    calcTop: function(iCard) { return (10); },
+    calcLeft: function(iCard) { return ((piles["Left2"].calcLeft(0) + piles["Left3"].calcLeft(0)) / 2); }
   },
   "Right1": {
     cards: [],
-    calcTop: function(iCard) { return (165 + 7 * iCard); },
+    calcTop: function(iCard) { return (175 + 7 * iCard); },
     calcLeft: function(iCard) { return (415); }
   },
   "Right2": {
     cards: [],
-    calcTop: function(iCard) { return (165 + 7 * iCard); },
+    calcTop: function(iCard) { return (175 + 7 * iCard); },
     calcLeft: function(iCard) { return (545); }
   },
   "Right3": {
     cards: [],
-    calcTop: function(iCard) { return (165 + 7 * iCard); },
+    calcTop: function(iCard) { return (175 + 7 * iCard); },
     calcLeft: function(iCard) { return (675); }
   },
   "JackStack": {
     cards: [],
     calcTop: function(iCard) { return (10); },
-    calcLeft: function(iCard) { return (415 + 45 * card); }
+    calcLeft: function(iCard) { return (415 + 45 * iCard); }
   },
   "Discard": {
     cards: [],
-    calcTop: function(iCard) { return (piles["Left1"].calcTop(10) + cardHeight + 10); },
-    calcLeft: function(iCard) { return (645); }
+    calcTop: function(iCard) { return (10); },
+    calcLeft: function(iCard) { return (15); }
   },
 };
 
@@ -119,7 +119,7 @@ function startGame() {
   for (i = 0 ; i < 6; ++i) {
     var elem = document.getElementById(smallDeck[i]);
     elem.style.left = (20 + i*125) + "px";
-    elem.style.top =  "165px";
+    elem.style.top =  "175px";
     elem.style.display = "block";
   }
 };
@@ -129,7 +129,7 @@ function findInPiles(card) {
     var pile = piles[pileName];
     for (z = 0; z < pile.cards.length; ++z) {
       if (pile.cards[z] == card) {
-        return {pile: pile, atTop: (z == pile.cards.length - 1)};
+        return {pileName: pileName, pile: pile, atTop: (z == pile.cards.length - 1)};
       }
     }
   }
@@ -148,9 +148,24 @@ function downclickCard(event) {
     elem = elem.parentNode;
     found = findInPiles(elem.id);
   }
-  if (found.atTop) {
+  var canBePickedUp = false;
+  if (piles["Flipped"].cards.length > 0) {
+    if (found.pileName == "Flipped") { canBePickedUp = true; }
+  }
+  else if (found.pileName.substring(0,4) == "Left") {
+    canBePickedUp = found.atTop;
+  }
+
+  if (canBePickedUp) {
     var card = found.pile.cards.pop();
     var elem = document.getElementById(card);
+    var flipped = false;
+    
+    var topElem = document.getElementById(card + "_front");
+    if (topElem.style.display == "none") {
+      topElem.style.display = "block";
+      flipped = true;
+    }
     //elem.style.opacity = 0.5;
     elem.style["z-index"] = 100;
     
@@ -159,6 +174,7 @@ function downclickCard(event) {
       card: elem.id,
       elem: elem,
       originPile: found.pile,
+      cardFlipped: flipped,
       startX: event.clientX,
       startY: event.clientY,
       lastX: event.clientX,
@@ -220,29 +236,33 @@ function upclick(event) {
   }
   else {
     var elem = mouseDragInfo.elem;
-    var foundRightPile = false;
-    for (var iRightPile = 1; iRightPile <=3 && foundRightPile === false; ++iRightPile) {
-      var pile = piles["Right" + iRightPile];
-      if (dragCardCenterIsOverTopOfPile(pile)) {
-        foundRightPile = iRightPile;
+    var landingPile = false;
+    for (var pileName in piles) {
+      if (pileName.substring(0,4) != "Left") {
+        var pile = piles[pileName];
+        if (dragCardCenterIsOverTopOfPile(pile)) {
+          landingPile = pile;
+        }
       }
     }
-    if (foundRightPile !== false) {
-      var rightPile = piles["Right" + foundRightPile];
-      elem.style.left = rightPile.calcLeft(rightPile.cards.length) + "px";
-      elem.style.top = rightPile.calcTop(rightPile.cards.length) + "px";
-      elem.style.opacity = 1.0;
-      elem.style["z-index"] = rightPile.cards.length;
-      rightPile.cards.push(mouseDragInfo.card);
+    if (landingPile === false) {
+      if (mouseDragInfo.cardFlipped) {
+        if (mouseDragInfo.card.substring(1,2) == "j") {
+          landingPile = piles["JackStack"];
+        }
+        else {
+          landingPile = piles["Flipped"];
+        }
+      }
+      else {
+        landingPile = mouseDragInfo.originPile;
+      }
     }
-    else {
-      var originPile = mouseDragInfo.originPile;
-      elem.style.left = originPile.calcLeft(originPile.cards.length) + "px";
-      elem.style.top = originPile.calcTop(originPile.cards.length) + "px";
-      elem.style.opacity = 1.0;
-      elem.style["z-index"] = originPile.cards.length;
-      originPile.cards.push(mouseDragInfo.card);
-    }
+    elem.style.left = landingPile.calcLeft(landingPile.cards.length) + "px";
+    elem.style.top = landingPile.calcTop(landingPile.cards.length) + "px";
+    elem.style.opacity = 1.0;
+    elem.style["z-index"] = landingPile.cards.length;
+    landingPile.cards.push(mouseDragInfo.card);
     
     mouseDragInfo = null;
     document.getElementById("debugtext").textContent = "";
