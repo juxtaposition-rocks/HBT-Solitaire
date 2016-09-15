@@ -57,6 +57,7 @@ function shuffle(a) {
   return a;
 };
 
+var cardwidth = 110;
 var cardheight = 155;
 
 var piles = {
@@ -150,7 +151,7 @@ function downclickCard(event) {
   if (found.atTop) {
     var card = found.pile.cards.pop();
     var elem = document.getElementById(card);
-    elem.style.opacity = 0.5;
+    //elem.style.opacity = 0.5;
     elem.style["z-index"] = 100;
     
     document.getElementById("debugtext").textContent = "(" + event.clientX + ", " + event.clientY + ")";
@@ -159,10 +160,23 @@ function downclickCard(event) {
       elem: elem,
       originPile: found.pile,
       startX: event.clientX,
-      startY: event.clientY
+      startY: event.clientY,
+      lastX: event.clientX,
+      lastY: event.clientY
     };
   }
   event.stopPropagation();
+};
+
+function calcDragCardTop() {
+    var originPile = mouseDragInfo.originPile;
+    var dy = mouseDragInfo.lastY - mouseDragInfo.startY;
+    return originPile.calcTop(originPile.cards.length) + dy;
+};
+function calcDragCardLeft() {
+    var originPile = mouseDragInfo.originPile;
+    var dx = mouseDragInfo.lastX - mouseDragInfo.startX;
+    return originPile.calcLeft(originPile.cards.length) + dx;
 };
 
 function respondToMouseMoveEvent(event) {
@@ -170,6 +184,9 @@ function respondToMouseMoveEvent(event) {
     //document.getElementById("debugtext").textContent = "(" + event.clientX + ", " + event.clientY + ")";
   }
   else {
+    mouseDragInfo.lastX = event.clientX;
+    mouseDragInfo.lastY = event.clientY;
+    
     var elem = mouseDragInfo.elem;
     var originPile = mouseDragInfo.originPile;
     
@@ -188,19 +205,45 @@ function respondToMouseMoveEvent(event) {
   }
 };
 
+function dragCardCenterIsOverTopOfPile(pile) {
+  var cardCenterX = calcDragCardLeft() + (cardwidth / 2);
+  var cardCenterY = calcDragCardTop() + (cardheight / 2);
+  if (cardCenterX < pile.calcLeft(pile.cards.length)) { return false; }
+  if (cardCenterX > (pile.calcLeft(pile.cards.length) + cardwidth)) { return false; }
+  if (cardCenterY < pile.calcTop(pile.cards.length)) { return false; }
+  if (cardCenterY > (pile.calcTop(pile.cards.length) + cardheight)) { return false; }
+  return true;
+}
+
 function upclick(event) {
   if (mouseDragInfo === null) {
   }
   else {
     var elem = mouseDragInfo.elem;
-    var originPile = mouseDragInfo.originPile;
-   
-    elem.style.left = originPile.calcLeft(originPile.cards.length) + "px";
-    elem.style.top = originPile.calcTop(originPile.cards.length) + "px";
-    elem.style.opacity = 1.0;
-    elem.style["z-index"] = originPile.cards.length;
+    var foundRightPile = false;
+    for (var iRightPile = 1; iRightPile <=3 && foundRightPile === false; ++iRightPile) {
+      var pile = piles["Right" + iRightPile];
+      if (dragCardCenterIsOverTopOfPile(pile)) {
+        foundRightPile = iRightPile;
+      }
+    }
+    if (foundRightPile !== false) {
+      var rightPile = piles["Right" + foundRightPile];
+      elem.style.left = rightPile.calcLeft(rightPile.cards.length) + "px";
+      elem.style.top = rightPile.calcTop(rightPile.cards.length) + "px";
+      elem.style.opacity = 1.0;
+      elem.style["z-index"] = rightPile.cards.length;
+      rightPile.cards.push(mouseDragInfo.card);
+    }
+    else {
+      var originPile = mouseDragInfo.originPile;
+      elem.style.left = originPile.calcLeft(originPile.cards.length) + "px";
+      elem.style.top = originPile.calcTop(originPile.cards.length) + "px";
+      elem.style.opacity = 1.0;
+      elem.style["z-index"] = originPile.cards.length;
+      originPile.cards.push(mouseDragInfo.card);
+    }
     
-    originPile.cards.push(mouseDragInfo.card);
     mouseDragInfo = null;
     document.getElementById("debugtext").textContent = "";
   }
