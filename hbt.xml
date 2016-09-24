@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <head><title>HBT Solitaire</title><!--
     HBT Solitaire
-    Copyright (c) 2016
+    Copyright (c) 2016 by the original author(s).
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -57,49 +57,49 @@ function shuffle(a) {
   return a;
 };
 
-var cardwidth = 110;
-var cardheight = 155;
+var cardWidth = 110;
+var cardHeight = 155;
 
 var piles = {
   "Left1": {
     cards: [],
-    calcTop: function(iCard) { return (175 + 35 * iCard); },
+    calcTop: function(iCard) { return (175 + 30 * iCard); },
     calcLeft: function(iCard) { return (15); }
   },
   "Left2": {
     cards: [],
-    calcTop: function(iCard) { return (175 + 35 * iCard); },
+    calcTop: function(iCard) { return (175 + 30 * iCard); },
     calcLeft: function(iCard) { return (145); }
   },
   "Left3": {
     cards: [],
-    calcTop: function(iCard) { return (175 + 35 * iCard); },
+    calcTop: function(iCard) { return (175 + 30 * iCard); },
     calcLeft: function(iCard) { return (275); }
   },
   "Flipped": {
     cards: [],
-    calcTop: function(iCard) { return (10); },
+    calcTop: function(iCard) { return (55); },
     calcLeft: function(iCard) { return ((piles["Left2"].calcLeft(0) + piles["Left3"].calcLeft(0)) / 2); }
   },
   "Right1": {
     cards: [],
-    calcTop: function(iCard) { return (175 + 7 * iCard); },
+    calcTop: function(iCard) { return (175 + 20 * iCard); },
     calcLeft: function(iCard) { return (415); }
   },
   "Right2": {
     cards: [],
-    calcTop: function(iCard) { return (175 + 7 * iCard); },
+    calcTop: function(iCard) { return (175 + 20 * iCard); },
     calcLeft: function(iCard) { return (545); }
   },
   "Right3": {
     cards: [],
-    calcTop: function(iCard) { return (175 + 7 * iCard); },
+    calcTop: function(iCard) { return (175 + 20 * iCard); },
     calcLeft: function(iCard) { return (675); }
   },
   "JackStack": {
     cards: [],
     calcTop: function(iCard) { return (10); },
-    calcLeft: function(iCard) { return (415 + 40 * iCard); }
+    calcLeft: function(iCard) { return (415 + 25 * iCard); }
   },
   "Discard": {
     cards: [],
@@ -108,11 +108,81 @@ var piles = {
   },
 };
 
+var allCards = {
+  "cj":0, "c7":7, "c8":8, "c9":9, "cx":10, "ca":11, "cq":12, "ck":13,
+  "sj":0, "s7":7, "s8":8, "s9":9, "sx":10, "sa":91, "sq":12, "sk":13,
+  "dj":0, "d7":7, "d8":8, "d9":9, "dx":10, "da":11, "dq":92, "dk":13,
+  "hj":0, "h7":7, "h8":8, "h9":9, "hx":10, "ha":11, "hq":12, "hk":93
+};
+
+function isCurrentlyTrump(card) {
+  if (card[1] == "j") { return true; }
+  if (card == "hk" || card == "dq" || card == "sa") { return true; }
+  var j = piles["JackStack"].cards;
+  if (j.length == 0) { return false; }
+  if (card[0] == j[j.length - 1][0]) { return true; }
+  return false;
+};
+function decorateTrumpness() {
+  for (var card in allCards) {
+    var isTrump = isCurrentlyTrump(card);
+    var classiness = document.getElementById(card + "_front").className;
+    if (isTrump && !classiness.endsWith(" trump")) {
+      document.getElementById(card + "_front").className += " trump";
+    }
+    if (!isTrump && classiness.endsWith(" trump")) {
+      document.getElementById(card + "_front").className = classiness.substring(0,classiness.length-6);
+    }
+  }
+}
+
+function updateScoreboard() {
+  var won = 0;
+  for (var pileNumber = 1; pileNumber <= 3; ++pileNumber) {
+    cards = piles["Right" + pileNumber].cards;
+    for (var iCard = 0; iCard < cards.length; ++iCard) {
+      var card = cards[iCard];
+      if (card[1] == "7" || card[1] == "9") { won += 5; }
+      else { won += 1; }
+    }
+  }
+  document.getElementById("winspan").textContent = won;
+  
+  var lost = 0;
+  var cards = piles["Discard"].cards;
+  for (var iCard = 0; iCard < cards.length; ++iCard) {
+    var card = cards[iCard];
+    if (card[1] == "7" || card[1] == "9") { lost += 5; }
+    else if (card[1] != "J") { lost += 1; }
+  }
+  document.getElementById("lostspan").textContent = lost;
+  
+  return won;
+}
+
+function winner(card1, card2) {
+  if (card1[1] == "j" && card2[1] == "j") { return false; }
+  if (card1[1] == "j") { return card2; }
+  if (card2[1] == "j") { return card1; }
+  var trump1 = isCurrentlyTrump(card1);
+  var trump2 = isCurrentlyTrump(card2);
+  if (trump1 && !trump2) { return card1; }
+  if (trump2 && !trump1) { return card2; }
+  var weight1 = allCards[card1];
+  var weight2 = allCards[card2];
+  if (weight1 > weight2) { return card1; }
+  if (weight2 > weight1) { return card2; }
+  return false;
+};
+
+var smallDeck = ["dj", "hj", "sa"];
+
 var mainDeck = shuffle(["c7", "c8", "c9", "cx", "ca", "cq", "ck", "s7", "s8", "s9", "sx", "sq", "sk", "d7", "d8", "d9", "dx", "da", "dq", "dk", "h7", "h8", "h9", "hx", "ha", "hq", "hk"]);
 
 var smallDeck = ["cj", "sj", "dj", "hj", "sa"];
 
 function startGame() {
+  decorateTrumpness();
   document.getElementById("startdiv").style.display = "none";
   document.getElementById("showspecial").style.display = "block";
   smallDeck.push(mainDeck.pop());
@@ -127,17 +197,16 @@ function startGame() {
 function findInPiles(card) {
   for (var pileName in piles) {
     var pile = piles[pileName];
-    for (z = 0; z < pile.cards.length; ++z) {
+    for (var z = 0; z < pile.cards.length; ++z) {
       if (pile.cards[z] == card) {
         return {pileName: pileName, pile: pile, atTop: (z == pile.cards.length - 1)};
       }
     }
   }
-  //alert("failed to find: " + card);
   return false;
 };
 
-var mouseDragInfo = null;
+var mouseDragInfo = false;
 
 function downclickCard(event) {
   // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
@@ -152,7 +221,7 @@ function downclickCard(event) {
   if (piles["Flipped"].cards.length > 0) {
     if (found.pileName == "Flipped") { canBePickedUp = true; }
   }
-  else if (found.pileName.substring(0,4) == "Left") {
+  else if (found.pileName.startsWith("Left")) {
     canBePickedUp = found.atTop;
   }
 
@@ -166,10 +235,8 @@ function downclickCard(event) {
       topElem.style.display = "block";
       flipped = true;
     }
-    //elem.style.opacity = 0.5;
     elem.style["z-index"] = 100;
     
-    document.getElementById("debugtext").textContent = "(" + event.clientX + ", " + event.clientY + ")";
     mouseDragInfo = {
       card: elem.id,
       elem: elem,
@@ -197,10 +264,7 @@ function calcDragCardLeft() {
 };
 
 function respondToMouseMoveEvent(event) {
-  if (mouseDragInfo === null) {
-    //document.getElementById("debugtext").textContent = "(" + event.clientX + ", " + event.clientY + ")";
-  }
-  else {
+  if (mouseDragInfo !== false) {
     mouseDragInfo.lastX = event.clientX;
     mouseDragInfo.lastY = event.clientY;
     
@@ -209,13 +273,6 @@ function respondToMouseMoveEvent(event) {
     
     var dx = event.clientX - mouseDragInfo.startX;
     var dy = event.clientY - mouseDragInfo.startY;
-    document.getElementById("debugtext").textContent =
-      "(" + mouseDragInfo.startX + ", " + mouseDragInfo.startY + ")" +
-      " + " +
-      "(" + dx + ", " + dy + ")" +
-      "\n" +
-      "--- " + originPile.calcLeft(originPile.cards.length) + ", " + originPile.calcTop(originPile.cards.length) + "\n" +
-      "\n";
     
     elem.style.left = (originPile.calcLeft(originPile.cards.length) + dx) + "px";
     elem.style.top = (originPile.calcTop(originPile.cards.length) + dy) + "px";
@@ -223,30 +280,42 @@ function respondToMouseMoveEvent(event) {
 };
 
 function dragCardCenterIsOverTopOfPile(pile) {
-  if ((calcDragCardLeft() + (cardwidth / 2)) < pile.calcLeft(pile.cards.length)) { return false; }
-  if ((calcDragCardLeft() + (cardwidth / 2)) > (pile.calcLeft(pile.cards.length) + cardwidth)) { return false; }
-  if ((calcDragCardTop() + (cardheight * 3 / 4)) < pile.calcTop(pile.cards.length)) { return false; }
-  if ((calcDragCardTop() + (cardheight * 1 / 4)) > (pile.calcTop(pile.cards.length) + cardheight)) { return false; }
+  if ((calcDragCardLeft() + (cardWidth / 2)) < pile.calcLeft(pile.cards.length)) { return false; }
+  if ((calcDragCardLeft() + (cardWidth / 2)) > (pile.calcLeft(pile.cards.length) + cardWidth)) { return false; }
+  if ((calcDragCardTop() + (cardHeight * 3 / 4)) < pile.calcTop(pile.cards.length)) { return false; }
+  if ((calcDragCardTop() + (cardHeight * 1 / 4)) > (pile.calcTop(pile.cards.length) + cardHeight)) { return false; }
   return true;
 }
 
 function upclick(event) {
-  if (mouseDragInfo === null) {
-  }
-  else {
+  if (mouseDragInfo !== false) {
     var elem = mouseDragInfo.elem;
+    var dropCard = mouseDragInfo.card;
     var landingPile = false;
     for (var pileName in piles) {
-      if (pileName.substring(0,4) != "Left") {
+      if (!pileName.startsWith("Left")) {
         var pile = piles[pileName];
         if (dragCardCenterIsOverTopOfPile(pile)) {
-          landingPile = pile;
+          if (pileName.startsWith("Right")) {
+            if (pile.cards.length == 0) {
+              landingPile = pile;
+            }
+            else {
+              var topCard = pile.cards[pile.cards.length - 1];
+              if (topCard == "hk" || topCard == "dq" || topCard == "sa" || winner(topCard, dropCard) == dropCard) {
+                landingPile = pile;
+              }
+            }
+          }
+          else {
+            landingPile = pile;
+          }
         }
       }
     }
     if (landingPile === false) {
       if (mouseDragInfo.cardFlipped) {
-        if (mouseDragInfo.card.substring(1,2) == "j") {
+        if (dropCard[1] == "j") {
           landingPile = piles["JackStack"];
         }
         else {
@@ -259,18 +328,40 @@ function upclick(event) {
     }
     elem.style.left = landingPile.calcLeft(landingPile.cards.length) + "px";
     elem.style.top = landingPile.calcTop(landingPile.cards.length) + "px";
-    elem.style.opacity = 1.0;
-    elem.style["z-index"] = landingPile.cards.length;
-    landingPile.cards.push(mouseDragInfo.card);
+    if (landingPile.name == "Flipped") {
+      elem.style["z-index"] = 99;
+    }
+    else {
+      elem.style["z-index"] = landingPile.cards.length;
+    }
+    landingPile.cards.push(dropCard);
     
-    mouseDragInfo = null;
-    document.getElementById("debugtext").textContent = "";
+    var winnings = 0;
+    if (dropCard[1] == "j") { decorateTrumpness(); }
+    else { winnings = updateScoreboard(); }
+    
+    if (piles["Left1"].cards.length == 0 && piles["Left3"].cards.length == 0 && piles["Left2"].cards.length == 0) {
+      if (winnings == 60) {
+        document.getElementById("resultdiv").textContent = "Perfect!";
+      }
+      else if (winnings >= 55) {
+        document.getElementById("resultdiv").textContent = "You won!";
+      }
+      else {
+        document.getElementById("resultdiv").textContent = "You lost.";
+      }
+      document.getElementById("resultdiv").style.display = "block";
+    }
+    
+    mouseDragInfo = false;
   }
   event.stopPropagation();
   event.preventDefault();
 };
 
 function startPlaying() {
+  for (pileName in piles) { piles[pileName].name = pileName; }
+  
   document.getElementById("showspecial").style.display = "none";
   for (i = 0 ; i < 6; ++i) {
     var elem = document.getElementById(smallDeck[i] + "_front");
@@ -293,10 +384,10 @@ function startPlaying() {
       elem.style.display = "block";
       if (z==9) { elem.style.cursor = "move"; }
       elem.addEventListener("mousedown", downclickCard, false);
-      elem.addEventListener("mousemove", respondToMouseMoveEvent, false);
     }
   }
   
+  document.addEventListener("mousemove", respondToMouseMoveEvent, false);
   document.addEventListener("mouseup", upclick, false);
   
   var z = 0;
@@ -308,18 +399,18 @@ function startPlaying() {
     elem.style.left = piles["Right" + pileNumber].calcLeft(z) + "px";
     elem.style.display = "block";
   }
+  
+  updateScoreboard();
+  elem = document.getElementById("showscore");
+  elem.style.left = (piles["JackStack"].calcLeft(3) + cardWidth + 10) + "px";
+  elem.style.top = "30px";
+  elem.style.display = "block";
 };
 
 // ]]>
 </script></head><body style="background: #339955">
 
-<div id="aboutdiv" style="margin: 0; border: 0; padding: 0px; text-align: center; color: #003300; font-size: 9px; font-family: sans-serif">
-  <div>Powered by some hand-coded JavaScript, CSS, and HTML. Use your browser's "view page source" feature to see it all.</div>
-</div>
-
-<div id="debugtext" style="margin: 0; border: 0; padding: 0px; color: #003300; font-size: 11px; font-family: monospace"></div>
-
-<div id="cj" class="card"><div id="cj_front" class="blacksuit trump">♣J</div></div>
+<div id="cj" class="card"><div id="cj_front" class="blacksuit">♣J</div></div>
 <div id="c7" class="card"><div id="c7_front" class="blacksuit">♣7</div></div>
 <div id="c8" class="card"><div id="c8_front" class="blacksuit">♣8</div></div>
 <div id="c9" class="card"><div id="c9_front" class="blacksuit">♣9</div></div>
@@ -328,32 +419,32 @@ function startPlaying() {
 <div id="cq" class="card"><div id="cq_front" class="blacksuit">♣Q</div></div>
 <div id="ck" class="card"><div id="ck_front" class="blacksuit">♣K</div></div>
 
-<div id="sj" class="card"><div id="sj_front" class="blacksuit trump">♠J</div></div>
+<div id="sj" class="card"><div id="sj_front" class="blacksuit">♠J</div></div>
 <div id="s7" class="card"><div id="s7_front" class="blacksuit">♠7</div></div>
 <div id="s8" class="card"><div id="s8_front" class="blacksuit">♠8</div></div>
 <div id="s9" class="card"><div id="s9_front" class="blacksuit">♠9</div></div>
 <div id="sx" class="card"><div id="sx_front" class="blacksuit">♠10</div></div>
-<div id="sa" class="card"><div id="sa_front" class="blacksuit trump">♠A</div></div>
+<div id="sa" class="card"><div id="sa_front" class="blacksuit">♠A</div></div>
 <div id="sq" class="card"><div id="sq_front" class="blacksuit">♠Q</div></div>
 <div id="sk" class="card"><div id="sk_front" class="blacksuit">♠K</div></div>
 
-<div id="dj" class="card"><div id="dj_front" class="redsuit trump">♦J</div></div>
+<div id="dj" class="card"><div id="dj_front" class="redsuit">♦J</div></div>
 <div id="d7" class="card"><div id="d7_front" class="redsuit">♦7</div></div>
 <div id="d8" class="card"><div id="d8_front" class="redsuit">♦8</div></div>
 <div id="d9" class="card"><div id="d9_front" class="redsuit">♦9</div></div>
 <div id="dx" class="card"><div id="dx_front" class="redsuit">♦10</div></div>
 <div id="da" class="card"><div id="da_front" class="redsuit">♦A</div></div>
-<div id="dq" class="card"><div id="dq_front" class="redsuit trump">♦Q</div></div>
+<div id="dq" class="card"><div id="dq_front" class="redsuit">♦Q</div></div>
 <div id="dk" class="card"><div id="dk_front" class="redsuit">♦K</div></div>
 
-<div id="hj" class="card"><div id="hj_front" class="redsuit trump">♥J</div></div>
+<div id="hj" class="card"><div id="hj_front" class="redsuit">♥J</div></div>
 <div id="h7" class="card"><div id="h7_front" class="redsuit">♥7</div></div>
 <div id="h8" class="card"><div id="h8_front" class="redsuit">♥8</div></div>
 <div id="h9" class="card"><div id="h9_front" class="redsuit">♥9</div></div>
 <div id="hx" class="card"><div id="hx_front" class="redsuit">♥10</div></div>
 <div id="ha" class="card"><div id="ha_front" class="redsuit">♥A</div></div>
 <div id="hq" class="card"><div id="hq_front" class="redsuit">♥Q</div></div>
-<div id="hk" class="card"><div id="hk_front" class="redsuit trump">♥K</div></div>
+<div id="hk" class="card"><div id="hk_front" class="redsuit">♥K</div></div>
 
 <div id="startdiv" class="message">
   <div>Welcome to HBT Solitaire!</div>
@@ -364,6 +455,12 @@ function startPlaying() {
 <div id="showspecial" class="message" style="display: none">
   <div>These cards will be face-down.</div>
   <button id="startbutton" onclick="startPlaying();">Ok</button>
+</div>
+
+<div id="showscore" class="message" style="display: none; position: absolute; z-index: 0; font-size: 20px;">
+  <div><span id="winspan">0</span>/60 points</div>
+  <div style="font-weight: 300; display: none">(Lost <span id="lostspan">0</span>)</div>
+  <div id="resultdiv" style="display: none">You might have won!</div>
 </div>
 
 </body></html>
