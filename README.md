@@ -1,3 +1,3 @@
-# HBT-Solitaire
+# HBT Solitaire Core Engine
 
-This github hosts the source for http://juxtaposition.rocks/hbt/ .
+Core engine for http://juxtaposition.rocks/hbt/ .
