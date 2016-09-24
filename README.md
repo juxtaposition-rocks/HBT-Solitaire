@@ -1,3 +1,3 @@
-# HBT Solitaire Core Engine
+# HBT Solitaire
 
-Core engine for http://juxtaposition.rocks/hbt/ .
+Source code for http://juxtaposition.rocks/hbt/ , licensed under the AGPL.
