@@ -504,7 +504,7 @@ function startGame() {
   </div>
   <noscript><div>No script? This button will not do anything!</div></noscript>
   <button onclick="startGame();">Start Game</button>
-  <div>(Also need not about AGPL and source code availability...)</div>
+  <div>(Also need note about AGPL and source code availability...)</div>
 </div>
 
 <div id="showspecial" class="message" style="display: none">
