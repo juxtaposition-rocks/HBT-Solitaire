@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <head><title>HBT Solitaire</title><!--
+
     HBT Solitaire
     Copyright (c) 2016 by the original author(s).
 
@@ -17,11 +18,16 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 --><style>
 
 .message {
   margin: 10px; border: 2px solid black; border-radius: 6px; padding: 6px;
-  background: white; color: black; font-family: Verdana, serif; font-size: 25px;
+  background: white; color: black; font-family: Verdana, sans-serif; font-size: 25px;
+}
+
+.helptext {
+  padding: 10px;
 }
 
 .card {
@@ -30,6 +36,16 @@
   width: 110px; height: 155px;
   background: #CCCCFF;
   font-family: Verdana, serif; font-size: 20px; font-weight: bold;
+  white-space: nowrap;
+}
+
+.placeholder {
+  position: absolute; display: none;
+  z-index: -1;
+  border: 3px solid #003300; border-radius: 7px; padding: 0;
+  width: 100px; height: 145px;
+  background: #339955; color: #003300;
+  font-family: Verdana, serif; font-size: 14px; text-align: center;
   white-space: nowrap;
 }
 
@@ -46,6 +62,12 @@
 }
 
 .trump { border: 3px solid #FFFF99; background: #FFFFCC; }
+
+.decore {
+  padding: 0; margin-top: -5px;
+  text-align: center;
+  font-size: 90px;
+}
 
 </style><script> // <![CDATA[
 
@@ -210,6 +232,7 @@ var mouseDragInfo = false;
 
 function downclickCard(event) {
   // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
+  // https://developer.mozilla.org/en-US/docs/Web/Events/touchstart
   
   var elem = event.target;
   var found = findInPiles(elem.id);
@@ -242,10 +265,10 @@ function downclickCard(event) {
       elem: elem,
       originPile: found.pile,
       cardFlipped: flipped,
-      startX: event.clientX,
-      startY: event.clientY,
-      lastX: event.clientX,
-      lastY: event.clientY
+      startX: event.clientX || event.touches[0].clientX,
+      startY: event.clientY || event.touches[0].clientY,
+      lastX: event.clientX || event.touches[0].clientX,
+      lastY: event.clientY || event.touches[0].clientY
     };
   }
   event.stopPropagation();
@@ -265,14 +288,14 @@ function calcDragCardLeft() {
 
 function respondToMouseMoveEvent(event) {
   if (mouseDragInfo !== false) {
-    mouseDragInfo.lastX = event.clientX;
-    mouseDragInfo.lastY = event.clientY;
+    mouseDragInfo.lastX = event.clientX || event.touches[0].clientX;
+    mouseDragInfo.lastY = event.clientY || event.touches[0].clientY;
     
     var elem = mouseDragInfo.elem;
     var originPile = mouseDragInfo.originPile;
     
-    var dx = event.clientX - mouseDragInfo.startX;
-    var dy = event.clientY - mouseDragInfo.startY;
+    var dx = mouseDragInfo.lastX - mouseDragInfo.startX;
+    var dy = mouseDragInfo.lastY - mouseDragInfo.startY;
     
     elem.style.left = (originPile.calcLeft(originPile.cards.length) + dx) + "px";
     elem.style.top = (originPile.calcTop(originPile.cards.length) + dy) + "px";
@@ -384,11 +407,15 @@ function startPlaying() {
       elem.style.display = "block";
       if (z==9) { elem.style.cursor = "move"; }
       elem.addEventListener("mousedown", downclickCard, false);
+      elem.addEventListener("touchstart", downclickCard, false);
     }
   }
   
   document.addEventListener("mousemove", respondToMouseMoveEvent, false);
+  document.addEventListener("touchmove", respondToMouseMoveEvent, false);
   document.addEventListener("mouseup", upclick, false);
+  document.addEventListener("touchend", upclick, false);
+  document.addEventListener("touchcancel", upclick, false);
   
   var z = 0;
   for (var pileNumber = 2; pileNumber <= 3; ++pileNumber) {
@@ -404,6 +431,21 @@ function startPlaying() {
   elem = document.getElementById("showscore");
   elem.style.left = (piles["JackStack"].calcLeft(3) + cardWidth + 10) + "px";
   elem.style.top = "30px";
+  elem.style.display = "block";
+  
+  elem = document.getElementById("discard_placeholder");
+  elem.style.left = (piles["Discard"].calcLeft(0) + 5) + "px";
+  elem.style.top = (piles["Discard"].calcTop(0) + 5) + "px";
+  elem.style.display = "block";
+  
+  elem = document.getElementById("jackstack_placeholder");
+  elem.style.left = (piles["JackStack"].calcLeft(0) + 5) + "px";
+  elem.style.top = (piles["JackStack"].calcTop(0) + 5) + "px";
+  elem.style.display = "block";
+  
+  elem = document.getElementById("rightpile1_placeholder");
+  elem.style.left = (piles["Right1"].calcLeft(0) + 5) + "px";
+  elem.style.top = (piles["Right1"].calcTop(0) + 5) + "px";
   elem.style.display = "block";
 };
 
@@ -424,7 +466,7 @@ function startPlaying() {
 <div id="s8" class="card"><div id="s8_front" class="blacksuit">♠8</div></div>
 <div id="s9" class="card"><div id="s9_front" class="blacksuit">♠9</div></div>
 <div id="sx" class="card"><div id="sx_front" class="blacksuit">♠10</div></div>
-<div id="sa" class="card"><div id="sa_front" class="blacksuit">♠A</div></div>
+<div id="sa" class="card"><div id="sa_front" class="blacksuit"><div>♠A</div><div class="decore" style="font-family: Papyrus, fantasy">T</div></div></div>
 <div id="sq" class="card"><div id="sq_front" class="blacksuit">♠Q</div></div>
 <div id="sk" class="card"><div id="sk_front" class="blacksuit">♠K</div></div>
 
@@ -434,7 +476,7 @@ function startPlaying() {
 <div id="d9" class="card"><div id="d9_front" class="redsuit">♦9</div></div>
 <div id="dx" class="card"><div id="dx_front" class="redsuit">♦10</div></div>
 <div id="da" class="card"><div id="da_front" class="redsuit">♦A</div></div>
-<div id="dq" class="card"><div id="dq_front" class="redsuit">♦Q</div></div>
+<div id="dq" class="card"><div id="dq_front" class="redsuit"><div>♦Q</div><div class="decore" style="font-family: Curlz MT, fantasy">B</div></div></div>
 <div id="dk" class="card"><div id="dk_front" class="redsuit">♦K</div></div>
 
 <div id="hj" class="card"><div id="hj_front" class="redsuit">♥J</div></div>
@@ -444,10 +486,18 @@ function startPlaying() {
 <div id="hx" class="card"><div id="hx_front" class="redsuit">♥10</div></div>
 <div id="ha" class="card"><div id="ha_front" class="redsuit">♥A</div></div>
 <div id="hq" class="card"><div id="hq_front" class="redsuit">♥Q</div></div>
-<div id="hk" class="card"><div id="hk_front" class="redsuit">♥K</div></div>
+<div id="hk" class="card"><div id="hk_front" class="redsuit"><div>♥K</div><div class="decore" style="font-family: Curlz MT, fantasy">H</div></div></div>
+
+<div id="discard_placeholder" class="placeholder"><div style="padding-top: 30px">Discard</div></div>
+<div id="jackstack_placeholder" class="placeholder"><div style="padding-top: 30px">Jack Stack</div></div>
+<div id="rightpile1_placeholder" class="placeholder"></div>
 
 <div id="startdiv" class="message">
   <div>Welcome to HBT Solitaire!</div>
+  <div style="font-family: Verdana, serif; font-size: 14px;">
+    <div class="helptext">Description of how to play goes here.</div>
+    <div class="helptext">Blah blah blah.</div>
+  </div>
   <noscript><div>No script? This button will not do anything!</div></noscript>
   <button id="startbutton" onclick="startGame();">Start Game</button>
 </div>
