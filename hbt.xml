@@ -27,13 +27,14 @@
 }
 
 .helptext {
-  padding: 10px;
+  padding: 8px;
+  max-width: 500px;
 }
 
 .card {
   position: absolute; display: none;
   border: 3px solid black; border-radius: 7px; padding: 0;
-  width: 110px; height: 155px;
+  width: 115px; height: 150px;
   background: #CCCCFF;
   font-family: Verdana, serif; font-size: 20px; font-weight: bold;
   white-space: nowrap;
@@ -43,7 +44,7 @@
   position: absolute; display: none;
   z-index: -1;
   border: 3px solid #003300; border-radius: 7px; padding: 0;
-  width: 100px; height: 145px;
+  width: 105px; height: 140px;
   background: #339955; color: #003300;
   font-family: Verdana, serif; font-size: 14px; text-align: center;
   white-space: nowrap;
@@ -52,13 +53,13 @@
 .redsuit {
   border: 3px solid white; border-radius: 7px;
   background: white; color: red;
-  height: 149px;
+  height: 144px;
 }
 
 .blacksuit {
   border: 3px solid white; border-radius: 7px;
   background: white; color: black;
-  height: 149px;
+  height: 144px;
 }
 
 .trump { border: 3px solid #FFFF99; background: #FFFFCC; }
@@ -79,8 +80,8 @@ function shuffle(a) {
   return a;
 };
 
-var cardWidth = 110;
-var cardHeight = 155;
+var cardWidth = 105;
+var cardHeight = 150;
 
 var piles = {
   "Left1": {
@@ -91,12 +92,12 @@ var piles = {
   "Left2": {
     cards: [],
     calcTop: function(iCard) { return (175 + 30 * iCard); },
-    calcLeft: function(iCard) { return (145); }
+    calcLeft: function(iCard) { return (150); }
   },
   "Left3": {
     cards: [],
     calcTop: function(iCard) { return (175 + 30 * iCard); },
-    calcLeft: function(iCard) { return (275); }
+    calcLeft: function(iCard) { return (285); }
   },
   "Flipped": {
     cards: [],
@@ -105,28 +106,28 @@ var piles = {
   },
   "Right1": {
     cards: [],
-    calcTop: function(iCard) { return (175 + 20 * iCard); },
-    calcLeft: function(iCard) { return (415); }
+    calcTop: function(iCard) { return (175 + 22 * iCard); },
+    calcLeft: function(iCard) { return (440); }
   },
   "Right2": {
     cards: [],
-    calcTop: function(iCard) { return (175 + 20 * iCard); },
-    calcLeft: function(iCard) { return (545); }
+    calcTop: function(iCard) { return (175 + 22 * iCard); },
+    calcLeft: function(iCard) { return (575); }
   },
   "Right3": {
     cards: [],
-    calcTop: function(iCard) { return (175 + 20 * iCard); },
-    calcLeft: function(iCard) { return (675); }
+    calcTop: function(iCard) { return (175 + 22 * iCard); },
+    calcLeft: function(iCard) { return (710); }
   },
   "JackStack": {
     cards: [],
     calcTop: function(iCard) { return (10); },
-    calcLeft: function(iCard) { return (415 + 25 * iCard); }
+    calcLeft: function(iCard) { return (440 + 25 * iCard); }
   },
   "Discard": {
     cards: [],
     calcTop: function(iCard) { return (10); },
-    calcLeft: function(iCard) { return (15 + 40 * iCard); }
+    calcLeft: function(iCard) { return (15 + 35 * iCard); }
   },
 };
 
@@ -202,19 +203,6 @@ var smallDeck = ["dj", "hj", "sa"];
 var mainDeck = shuffle(["c7", "c8", "c9", "cx", "ca", "cq", "ck", "s7", "s8", "s9", "sx", "sq", "sk", "d7", "d8", "d9", "dx", "da", "dq", "dk", "h7", "h8", "h9", "hx", "ha", "hq", "hk"]);
 
 var smallDeck = ["cj", "sj", "dj", "hj", "sa"];
-
-function startGame() {
-  decorateTrumpness();
-  document.getElementById("startdiv").style.display = "none";
-  document.getElementById("showspecial").style.display = "block";
-  smallDeck.push(mainDeck.pop());
-  for (i = 0 ; i < 6; ++i) {
-    var elem = document.getElementById(smallDeck[i]);
-    elem.style.left = (20 + i*125) + "px";
-    elem.style.top =  "175px";
-    elem.style.display = "block";
-  }
-};
 
 function findInPiles(card) {
   for (var pileName in piles) {
@@ -449,6 +437,19 @@ function startPlaying() {
   elem.style.display = "block";
 };
 
+function startGame() {
+  decorateTrumpness();
+  document.getElementById("startdiv").style.display = "none";
+  document.getElementById("showspecial").style.display = "block";
+  smallDeck.push(mainDeck.pop());
+  for (i = 0 ; i < 6; ++i) {
+    var elem = document.getElementById(smallDeck[i]);
+    elem.style.left = (20 + i*130) + "px";
+    elem.style.top =  "175px";
+    elem.style.display = "block";
+  }
+};
+
 // ]]>
 </script></head><body style="background: #339955">
 
@@ -494,17 +495,21 @@ function startPlaying() {
 
 <div id="startdiv" class="message">
   <div>Welcome to HBT Solitaire!</div>
+  <button onclick="startGame();">Start Game</button>
   <div style="font-family: Verdana, serif; font-size: 14px;">
-    <div class="helptext">Description of how to play goes here.</div>
-    <div class="helptext">Blah blah blah.</div>
+    <div class="helptext">HBT Solitaire uses the standard HBT card strength and point system. Sevens and nines are worth 5 points. Jacks are worth jack (0 points). Everything else is worth 1 point. There are 60 points total.</div>
+    <div class="helptext">Hwaiet King of Hearts, B•Pie Quean of Diamonds, and Tanner Ace of Spades are always high trump. In HBT solitaire, they "complete" a pile and you can re-start playing in it.</div>
+    <div class="helptext">A trump card will always win against a non-trump card, and there is no concept of a "lead suit" in HBT Solitaire. The trump suit follows the last jack placed onto the Jack Stack. Other than that, card strength is 7, 8, 9, 10, Ace, Queen, King.</div>
+    <div class="helptext">The game is over when all cards have been moved from the left piles to the right piles, or else discarded. You do not get points for discarded cards. You must get at least 55 points to win. Winning with 60 points is a perfect score.</div>
   </div>
   <noscript><div>No script? This button will not do anything!</div></noscript>
-  <button id="startbutton" onclick="startGame();">Start Game</button>
+  <button onclick="startGame();">Start Game</button>
+  <div>(Also need not about AGPL and source code availability...)</div>
 </div>
 
 <div id="showspecial" class="message" style="display: none">
   <div>These cards will be face-down.</div>
-  <button id="startbutton" onclick="startPlaying();">Ok</button>
+  <button onclick="startPlaying();">Ok</button>
 </div>
 
 <div id="showscore" class="message" style="display: none; position: absolute; z-index: 0; font-size: 20px;">
