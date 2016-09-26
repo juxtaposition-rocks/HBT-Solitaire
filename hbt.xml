@@ -520,23 +520,23 @@ function next1() {
 <div id="cj" class="card"><div id="cj_front" class="blacksuit">♣J</div></div>
 <div id="c7" class="card"><div id="c7_front" class="blacksuit">
   <div>♣7</div>
-  <div class="decore">♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣<br/>♣<br/>♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣<br/><br/>♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣</div>
+  <div class="decore">♣     ♣<br/>♣<br/>♣     ♣<br/><br/>♣     ♣</div>
 </div></div>
 <div id="c8" class="card"><div id="c8_front" class="blacksuit">
   <div>♣8</div>
-  <div class="decore">♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣<br/>♣<br/>♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣<br/>♣<br/>♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣</div>
+  <div class="decore">♣     ♣<br/>♣<br/>♣     ♣<br/>♣<br/>♣     ♣</div>
 </div></div>
 <div id="c9" class="card"><div id="c9_front" class="blacksuit">
   <div>♣9</div>
-  <div class="decore">♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣<br/>♣<br/>♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣<br/>♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣<br/>♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣</div>
+  <div class="decore">♣     ♣<br/>♣<br/>♣     ♣<br/>♣     ♣<br/>♣     ♣</div>
 </div></div>
 <div id="cx" class="card"><div id="cx_front" class="blacksuit">
   <div>♣10</div>
-  <div class="decore">♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣<br/>♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣<br/>♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣<br/>♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣<br/>♣&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♣</div>
+  <div class="decore">♣     ♣<br/>♣     ♣<br/>♣     ♣<br/>♣     ♣<br/>♣     ♣</div>
 </div></div>
 <div id="ca" class="card"><div id="ca_front" class="blacksuit">
   <div>♣A</div>
-  <div class="decore">&nbsp;<br/>&nbsp;<br/>♣</div>
+  <div class="decore"> <br/> <br/>♣</div>
 </div></div>
 <div id="cq" class="card"><div id="cq_front" class="blacksuit">♣Q</div></div>
 <div id="ck" class="card"><div id="ck_front" class="blacksuit">♣K</div></div>
@@ -544,19 +544,19 @@ function next1() {
 <div id="sj" class="card"><div id="sj_front" class="blacksuit">♠J</div></div>
 <div id="s7" class="card"><div id="s7_front" class="blacksuit">
   <div>♠7</div>
-  <div class="decore">♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠<br/>♠<br/>♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠<br/><br/>♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠</div>
+  <div class="decore">♠     ♠<br/>♠<br/>♠     ♠<br/><br/>♠     ♠</div>
 </div></div>
 <div id="s8" class="card"><div id="s8_front" class="blacksuit">
   <div>♠8</div>
-  <div class="decore">♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠<br/>♠<br/>♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠<br/>♠<br/>♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠</div>
+  <div class="decore">♠     ♠<br/>♠<br/>♠     ♠<br/>♠<br/>♠     ♠</div>
 </div></div>
 <div id="s9" class="card"><div id="s9_front" class="blacksuit">
   <div>♠9</div>
-  <div class="decore">♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠<br/>♠<br/>♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠<br/>♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠<br/>♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠</div>
+  <div class="decore">♠     ♠<br/>♠<br/>♠     ♠<br/>♠     ♠<br/>♠     ♠</div>
 </div></div>
 <div id="sx" class="card"><div id="sx_front" class="blacksuit">
   <div>♠10</div>
-  <div class="decore">♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠<br/>♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠<br/>♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠<br/>♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠<br/>♠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♠</div>
+  <div class="decore">♠     ♠<br/>♠     ♠<br/>♠     ♠<br/>♠     ♠<br/>♠     ♠</div>
 </div></div>
 <div id="sa" class="card"><div id="sa_front" class="blacksuit"><div>♠A</div><div class="fancy" style="font-family: Papyrus, fantasy">T</div></div></div>
 <div id="sq" class="card"><div id="sq_front" class="blacksuit">♠Q</div></div>
@@ -565,23 +565,23 @@ function next1() {
 <div id="dj" class="card"><div id="dj_front" class="redsuit">♦J</div></div>
 <div id="d7" class="card"><div id="d7_front" class="redsuit">
   <div>♦7</div>
-  <div class="decore">♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦<br/>♦<br/>♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦<br/><br/>♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦</div>
+  <div class="decore">♦     ♦<br/>♦<br/>♦     ♦<br/><br/>♦     ♦</div>
 </div></div>
 <div id="d8" class="card"><div id="d8_front" class="redsuit">
   <div>♦8</div>
-  <div class="decore">♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦<br/>♦<br/>♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦<br/>♦<br/>♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦</div>
+  <div class="decore">♦     ♦<br/>♦<br/>♦     ♦<br/>♦<br/>♦     ♦</div>
 </div></div>
 <div id="d9" class="card"><div id="d9_front" class="redsuit">
   <div>♦9</div>
-  <div class="decore">♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦<br/>♦<br/>♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦<br/>♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦<br/>♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦</div>
+  <div class="decore">♦     ♦<br/>♦<br/>♦     ♦<br/>♦     ♦<br/>♦     ♦</div>
 </div></div>
 <div id="dx" class="card"><div id="dx_front" class="redsuit">
   <div>♦10</div>
-  <div class="decore">♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦<br/>♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦<br/>♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦<br/>♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦<br/>♦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♦</div>
+  <div class="decore">♦     ♦<br/>♦     ♦<br/>♦     ♦<br/>♦     ♦<br/>♦     ♦</div>
 </div></div>
 <div id="da" class="card"><div id="da_front" class="redsuit">
   <div>♦A</div>
-  <div class="decore">&nbsp;<br/>&nbsp;<br/>♦</div>
+  <div class="decore"> <br/> <br/>♦</div>
 </div></div>
 <div id="dq" class="card"><div id="dq_front" class="redsuit"><div>♦Q</div><div class="fancy" style="font-family: Curlz MT, fantasy">B</div></div></div>
 <div id="dk" class="card"><div id="dk_front" class="redsuit">♦K</div></div>
@@ -589,23 +589,23 @@ function next1() {
 <div id="hj" class="card"><div id="hj_front" class="redsuit">♥J</div></div>
 <div id="h7" class="card"><div id="h7_front" class="redsuit">
   <div>♥7</div>
-  <div class="decore">♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥<br/>♥<br/>♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥<br/><br/>♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥</div>
+  <div class="decore">♥     ♥<br/>♥<br/>♥     ♥<br/><br/>♥     ♥</div>
 </div></div>
 <div id="h8" class="card"><div id="h8_front" class="redsuit">
   <div>♥8</div>
-  <div class="decore">♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥<br/>♥<br/>♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥<br/>♥<br/>♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥</div>
+  <div class="decore">♥     ♥<br/>♥<br/>♥     ♥<br/>♥<br/>♥     ♥</div>
 </div></div>
 <div id="h9" class="card"><div id="h9_front" class="redsuit">
   <div>♥9</div>
-  <div class="decore">♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥<br/>♥<br/>♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥<br/>♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥<br/>♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥</div>
+  <div class="decore">♥     ♥<br/>♥<br/>♥     ♥<br/>♥     ♥<br/>♥     ♥</div>
 </div></div>
 <div id="hx" class="card"><div id="hx_front" class="redsuit">
   <div>♥10</div>
-  <div class="decore">♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥<br/>♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥<br/>♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥<br/>♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥<br/>♥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;♥</div>
+  <div class="decore">♥     ♥<br/>♥     ♥<br/>♥     ♥<br/>♥     ♥<br/>♥     ♥</div>
 </div></div>
 <div id="ha" class="card"><div id="ha_front" class="redsuit">
   <div>♥A</div>
-  <div class="decore">&nbsp;<br/>&nbsp;<br/>♥</div>
+  <div class="decore"> <br/> <br/>♥</div>
 </div></div>
 <div id="hq" class="card"><div id="hq_front" class="redsuit">♥Q</div></div>
 <div id="hk" class="card"><div id="hk_front" class="redsuit"><div>♥K</div><div class="fancy" style="font-family: Curlz MT, fantasy">H</div></div></div>
