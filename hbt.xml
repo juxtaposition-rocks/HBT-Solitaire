@@ -26,9 +26,7 @@
   background: white; color: black; font-family: Verdana, sans-serif; font-size: 25px;
 }
 
-.helptext {
-  padding: 8px;
-}
+.helptext { padding: 8px; }
 
 .startbutton {
   margin: 10px;
@@ -79,6 +77,10 @@
   text-align: center;
   font-size: 90px;
 }
+
+.perfectspan { font-weight: bold; color: #00CC00; }
+.winspan { font-weight: bold; }
+.losespan { }
 
 </style><script> // <![CDATA[
 
@@ -216,8 +218,6 @@ function winner(card1, card2) {
   return false;
 };
 
-var smallDeck = ["dj", "hj", "sa"];
-
 var mainDeck = shuffle(["c7", "c8", "c9", "cx", "ca", "cq", "ck", "s7", "s8", "s9", "sx", "sq", "sk", "d7", "d8", "d9", "dx", "da", "dq", "dk", "h7", "h8", "h9", "hx", "ha", "hq", "hk"]);
 
 var smallDeck = ["cj", "sj", "dj", "hj", "sa"];
@@ -322,6 +322,29 @@ function dragCardCenterIsOverTopOfPile(pile) {
 
 var undoInfo = false;
 
+function undoodle() {
+  if (undoInfo !== false) {
+    var card = undoInfo.dest.cards.pop();
+    var elem = document.getElementById(card);
+    elem.style.left = undoInfo.src.calcLeft(undoInfo.src.cards.length) + "px";
+    elem.style.top = undoInfo.src.calcTop(undoInfo.src.cards.length) + "px";
+    if (undoInfo.src.name == "Flipped") {
+      elem.style["z-index"] = 99;
+    }
+    else {
+      elem.style["z-index"] = undoInfo.src.cards.length;
+    }
+    undoInfo.src.cards.push(card);
+
+    if (card[1] == "j") { decorateTrumpness(); }
+    else { winnings = updateScoreboard(); }
+
+    undoInfo = false;
+    document.getElementById("undoodle").style.display = "none";
+  }
+};
+
+var winnings = 0;
 function upclick(event) {
   if (mouseDragInfo !== false) {
     var elem = mouseDragInfo.elem;
@@ -377,49 +400,33 @@ function upclick(event) {
     }
     landingPile.cards.push(dropCard);
     
-    var winnings = 0;
     if (dropCard[1] == "j") { decorateTrumpness(); }
     else { winnings = updateScoreboard(); }
     
     if (piles["Left1"].cards.length == 0 && piles["Left3"].cards.length == 0 && piles["Left2"].cards.length == 0) {
+      document.getElementById("resultdiv").textContent = winnings + "/60.";
       if (winnings == 60) {
-        document.getElementById("resultdiv").textContent = "Perfect!";
+        document.getElementById("resultdiv").textContent += " Perfect!";
       }
       else if (winnings >= 55) {
-        document.getElementById("resultdiv").textContent = "You won!";
+        document.getElementById("resultdiv").textContent += " You won!";
       }
       else {
-        document.getElementById("resultdiv").textContent = "You lost.";
+        document.getElementById("resultdiv").textContent += " You lost.";
       }
-      document.getElementById("resultdiv").style.display = "block";
+      document.getElementById("undoodle").style.display = "none";
+      var elem = document.getElementById("gameover");
+      elem.style.top = piles["Left1"].calcTop(0) + "px";
+      var left1 = piles["Left1"].calcLeft(0);
+      elem.style.left = left1 + "px";
+      elem.style.width = (piles["Left3"].calcLeft(0) + cardWidth - left1) + "px";
+      elem.style.display = "block";
     }
     
     mouseDragInfo = false;
   }
   event.stopPropagation();
   event.preventDefault();
-};
-
-function undoodle() {
-  if (undoInfo !== false) {
-    var card = undoInfo.dest.cards.pop();
-    var elem = document.getElementById(card);
-    elem.style.left = undoInfo.src.calcLeft(undoInfo.src.cards.length) + "px";
-    elem.style.top = undoInfo.src.calcTop(undoInfo.src.cards.length) + "px";
-    if (undoInfo.src.name == "Flipped") {
-      elem.style["z-index"] = 99;
-    }
-    else {
-      elem.style["z-index"] = undoInfo.src.cards.length;
-    }
-    undoInfo.src.cards.push(card);
-
-    if (card[1] == "j") { decorateTrumpness(); }
-    else { winnings = updateScoreboard(); }
-
-    undoInfo = false;
-    document.getElementById("undoodle").style.display = "none";
-  }
 };
 
 function startPlaying() {
@@ -468,7 +475,7 @@ function startPlaying() {
   }
   
   updateScoreboard();
-  elem = document.getElementById("showscore");
+  elem = document.getElementById("scoreboard");
   elem.style.left = (piles["JackStack"].calcLeft(3) + cardWidth + 20) + "px";
   elem.style.top = "30px";
   elem.style.display = "block";
@@ -499,9 +506,49 @@ function startGame() {
   for (i = 0 ; i < 6; ++i) {
     var elem = document.getElementById(smallDeck[i]);
     elem.style.left = (20 + i*130) + "px";
-    elem.style.top =  "160px";
+    elem.style.top =  "180px";
     elem.style.display = "block";
   }
+};
+
+function playAgain() {
+  document.getElementById("gameover").style.display = "none";
+  for (var card in allCards) {
+    document.getElementById(card).style.display = "none";
+  }
+  for (var pileName in piles) {
+    piles[pileName].cards = [];
+  }
+
+  mainDeck = shuffle(["c7", "c8", "c9", "cx", "ca", "cq", "ck", "s7", "s8", "s9", "sx", "sq", "sk", "d7", "d8", "d9", "dx", "da", "dq", "dk", "h7", "h8", "h9", "hx", "ha", "hq", "hk"]);
+
+  smallDeck = ["cj", "sj", "dj", "hj", "sa"];
+
+  document.getElementById("gameover").style.display = "none";
+  document.getElementById("scoreboard").style.display = "none";
+  document.getElementById("discard_placeholder").style.display = "none";
+  document.getElementById("jackstack_placeholder").style.display = "none";
+  document.getElementById("rightpile1_placeholder").style.display = "none";
+
+  var news;
+  if (winnings == 60) {
+    news = '<span class="perfectspan">60</span>';
+  }
+  else if (winnings >= 55) {
+    news = '<span class="winspan">'+winnings+"</span>";
+  }
+  else {
+    news = '<span class="losespan">'+winnings+"</span>";
+  }
+  if (document.getElementById("allscores").innerHTML == "(n/a)") {
+    document.getElementById("allscores").innerHTML = news;
+  }
+  else {
+    document.getElementById("allscores").innerHTML = news + ", " + document.getElementById("allscores").innerHTML;
+  }
+  document.getElementById("history").style.display = "block";
+
+  startGame();
 };
 
 function waitgoback() {
@@ -623,7 +670,7 @@ function next1() {
     <div class="helptext">The trump suit is always the suit of the last jack placed onto the Jack Stack. At the beginning of the game, before any jacks have been placed onto the Jack Stack there is no trump suit. Besides the "completing" of piles, the changing of the trump suit is the other dynamic that opens up new possibilities for moving cards to the piles on the right.</div>
   </div>
   <button onclick="next1();" class="startbutton">Ok. What else?</button>
-  <button onclick="startGame();" class="startbutton">Skip instructions and start game</button>
+  <button onclick="startGame();" class="startbutton">Skip instructions and start game.</button>
 </div>
 <div id="startdiv1b" class="message">
   <div style="font-weight: bold">Bonus!</div>
@@ -633,7 +680,6 @@ function next1() {
 </div>
 
 <div id="start2" class="message" style="display: none">
-  <div style="font-weight: bold">Welcome to HBT Solitaire!</div>
   <div style="font-family: Verdana, serif; font-size: 14px;">
     <div class="helptext">Play continues until all cards have been moved to the piles on the right, or else discarded. You do not get points for discarded cards.</div>
     <div class="helptext">Once again the standard HBT card strength and point system applies: Sevens and nines are worth 5 points, jacks are worth jack (0 points), and everything else is worth 1 point. This makes a total of 60 points.</div>
@@ -645,17 +691,26 @@ function next1() {
 </div>
 
 <div id="showspecial" class="message" style="display: none">
+  <div style="font-weight: bold">These cards will be face-down.</div>
   <div style="font-family: Verdana, serif; font-size: 14px;">
-    <div>These cards will be face-down. Remember, the jacks will change the trump and <span style="font-weight: bold; color: black">Tanner Ace of Spades</span> will finish and restart a pile. The last card is a random card from the deck that you will need to be prepared for (or else take your chances...).</div>
+    <div class="helptext">Remember, the jacks will change the trump and <span style="font-weight: bold; color: black">Tanner Ace of Spades</span> will finish and restart a pile. The last card is a random card from the deck that you will need to be prepared for (or else take your chances...).</div>
   </div>
   <button onclick="startPlaying();" class="startbutton">Ok</button>
 </div>
 
-<div id="showscore" class="message" style="display: none; position: absolute; z-index: 0; font-size: 20px;">
+<div id="scoreboard" class="message" style="display: none; position: absolute; z-index: 0; font-size: 20px;">
   <div><span id="winspan">0</span>/60 points</div>
   <button id="undoodle" onclick="undoodle();" style="display: none">Undo</button>
   <div style="font-weight: light; display: none">(Lost <span id="lostspan">0</span>)</div>
-  <div id="resultdiv" style="display: none">You might have won!</div>
+</div>
+
+<div id="gameover" class="message" style="display: none; position: absolute;">
+  <div id="resultdiv" class="helptext">You might have won!</div>
+  <div id="history" style="font-family: Verdana, serif; font-size: 14px; display: none;">
+    <div class="helptext">Your previous scores were:</div>
+    <div id="allscores" class="helptext">(n/a)</div>
+  </div>
+  <button onclick="playAgain();" class="startbutton">Play again.</button>
 </div>
 
 </body></html>
