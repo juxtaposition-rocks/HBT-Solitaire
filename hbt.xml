@@ -560,6 +560,7 @@ function waitgoback() {
 
 function next1() {
   document.getElementById("startdiv").style.display = "none";
+  document.getElementById("startdiv1b").style.display = "none";
   document.getElementById("start2").style.display = "block";
 };
 
