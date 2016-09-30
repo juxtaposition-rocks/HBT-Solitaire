@@ -1,25 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+
+Chapter 0: Title Page (Legalese)
+
+     HBT Solitaire
+     Copyright (c) 2016 by the original author(s).
+
+     This program is free software: you can redistribute it and/or
+     modify it under the terms of the GNU Affero General Public License
+     as published by the Free Software Foundation, either version 3 of
+     the License, or (at your option) any later version.
+
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Affero General Public License for more details.
+
+     You have received a copy of the GNU Affero General Public License
+     along with this program. (It's in the "Appendix A" code comment at
+     the end.)
+
+-->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<head><title>HBT Solitaire</title><!--
+<head>
+<!--
 
-    HBT Solitaire
-    Copyright (c) 2016 by the original author(s).
+Chapter 1: Welcoming Introduction
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published
-    by the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+Besides coming with a license for allowed use, this source file also
+comes with a blessing:
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
+     May you be filled with wisdom
+        such that you may discern right from wrong.
+     May you be filled with courage
+        such that you may choose what's right against all odds.
 
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+     I believe in you.
 
---><style>
+-->
+<title>HBT Solitaire</title>
+<!--
+
+Chapter 2: Style!
+
+Good old-fassion CSS inside a an HTML <style> element, eh?
+
+-->
+<style>
 
 .message {
   margin: 5px; border: 2px solid black; border-radius: 7px; padding: 5px;
@@ -82,7 +110,20 @@
 .winspan { font-weight: bold; }
 .losespan { }
 
-</style><script> // <![CDATA[
+</style>
+<!--
+
+Chapter 3: JavaScript!
+
+Good old-fassion JavaScript inside of an HTML <script> element, eh?
+
+(Use a "CDATA" thingy so that there won't be any trouble with any of
+the special XML characters. Put the CDATA tags in a JavaScript
+comment so that they aren't a JavaScript syntax error. What fun!)
+
+-->
+<script>
+// <![CDATA[
 
 function shuffle(a) {
   for (var i = 0; i < a.length; ++i) {
@@ -478,7 +519,7 @@ function startPlaying() {
   updateScoreboard();
   elem = document.getElementById("scoreboard");
   elem.style.left = (piles["JackStack"].calcLeft(3) + cardWidth + 20) + "px";
-  elem.style.top = "20px";
+  elem.style.top = "15px";
   elem.style.display = "block";
   
   elem = document.getElementById("discard_placeholder");
@@ -596,7 +637,16 @@ function stopReviewingInstructions() {
 };
 
 // ]]>
-</script></head><body style="background: #339955">
+</script>
+<!--
+
+Chapter 4: Marked-up Text!
+
+So without any further ado...
+
+-->
+</head>
+<body style="background: #339955;">
 
 <div id="cj" class="card"><div id="cj_front" class="blacksuit">♣J</div></div>
 <div id="c7" class="card"><div id="c7_front" class="blacksuit">
@@ -639,7 +689,10 @@ function stopReviewingInstructions() {
   <div>♠10</div>
   <div class="decore">♠     ♠<br/>♠     ♠<br/>♠     ♠<br/>♠     ♠<br/>♠     ♠</div>
 </div></div>
-<div id="sa" class="card"><div id="sa_front" class="blacksuit"><div>♠A</div><div class="fancy" style="font-family: Papyrus, fantasy">T</div></div></div>
+<div id="sa" class="card"><div id="sa_front" class="blacksuit">
+  <div>♠A</div>
+  <div class="fancy" style="font-family: Papyrus, fantasy;">T</div>
+</div></div>
 <div id="sq" class="card"><div id="sq_front" class="blacksuit">♠Q</div></div>
 <div id="sk" class="card"><div id="sk_front" class="blacksuit">♠K</div></div>
 
@@ -664,7 +717,10 @@ function stopReviewingInstructions() {
   <div>♦A</div>
   <div class="decore"> <br/> <br/>♦</div>
 </div></div>
-<div id="dq" class="card"><div id="dq_front" class="redsuit"><div>♦Q</div><div class="fancy" style="font-family: Curlz MT, fantasy">B</div></div></div>
+<div id="dq" class="card"><div id="dq_front" class="redsuit">
+  <div>♦Q</div>
+  <div class="fancy" style="font-family: Curlz MT, fantasy;">B</div>
+</div></div>
 <div id="dk" class="card"><div id="dk_front" class="redsuit">♦K</div></div>
 
 <div id="hj" class="card"><div id="hj_front" class="redsuit">♥J</div></div>
@@ -689,58 +745,90 @@ function stopReviewingInstructions() {
   <div class="decore"> <br/> <br/>♥</div>
 </div></div>
 <div id="hq" class="card"><div id="hq_front" class="redsuit">♥Q</div></div>
-<div id="hk" class="card"><div id="hk_front" class="redsuit"><div>♥K</div><div class="fancy" style="font-family: Curlz MT, fantasy">H</div></div></div>
+<div id="hk" class="card"><div id="hk_front" class="redsuit">
+  <div>♥K</div>
+  <div class="fancy" style="font-family: Curlz MT, fantasy;">H</div>
+</div></div>
 
-<div id="discard_placeholder" class="placeholder"><div style="padding-top: 30px">Discard</div></div>
-<div id="jackstack_placeholder" class="placeholder"><div style="padding-top: 30px">Jack Stack</div></div>
+<div id="discard_placeholder" class="placeholder"><div style="padding-top: 30px;">Discard</div></div>
+<div id="jackstack_placeholder" class="placeholder"><div style="padding-top: 30px;">Jack Stack</div></div>
 <div id="rightpile1_placeholder" class="placeholder"></div>
 
 <div id="startdiv" class="message">
-  <div id="welcometitle" style="font-weight: bold">Welcome to HBT Solitaire!</div>
+  <div id="welcometitle" style="font-weight: bold;">Welcome to HBT Solitaire!</div>
   <div style="font-family: Verdana, serif; font-size: 14px;">
-    <div class="helptext">In HBT Solitaire you are moving cards from the three piles on the left to the three piles on the right. You can only move a card onto a pile on the right if it defeats the top card on the pile.</div>
-    <div class="helptext">HBT Solitaire uses the standard HBT card strength and point system: Kings are the strongst, followed by queens, aces, 10s, 9s, 8s, then 7s. <span style="font-weight: bold; color: red">Hwaiet King of Hearts</span>, <span style="font-weight: bold; color: red">B•Pie Quean of Diamonds</span>, and <span style="font-weight: bold; color: black">Tanner Ace of Spades</span> are always high trump, stronger than the king of the current trump suit.</div>
-    <div class="helptext">A trump card will always win against a non-trump card. In HBT Solitaire, the three high trump cards "complete" a pile so that you can re-start playing on it.</div>
-    <div class="helptext">The trump suit is always the suit of the last jack placed onto the Jack Stack. At the beginning of the game, before any jacks have been placed onto the Jack Stack there is no trump suit. Besides the "completing" of piles, the changing of the trump suit is the other dynamic that opens up new possibilities for moving cards to the piles on the right.</div>
+    <div class="helptext">
+      In HBT Solitaire you are moving cards from the three piles on the left to the three piles on the right.
+      You can only move a card onto a pile on the right if it defeats the top card on the pile.
+    </div>
+    <div class="helptext">
+      HBT Solitaire uses the standard HBT card strength and point system: Kings are the strongst, followed by queens, aces, 10s, 9s, 8s, then 7s.
+      <span style="font-weight: bold; color: red;">Hwaiet King of Hearts</span>, <span style="font-weight: bold; color: red;">B•Pie Quean of Diamonds</span>, and <span style="font-weight: bold; color: black;">Tanner Ace of Spades</span> are always high trump, stronger than the king of the current trump suit.
+    </div>
+    <div class="helptext">
+      A trump card will always win against a non-trump card.
+      In HBT Solitaire, the three high trump cards "complete" a pile so that you can re-start playing on it.
+    </div>
+    <div class="helptext">
+      At the beginning of the game, before any jacks have been placed onto the Jack Stack, there is no trump suit.
+      Then, whenever a jack is placed onto the Jack Stack, its suit becomes trump.
+      The changing of the trump suit also opens up new possibilities for moving cards onto piles that were previously inaccessible.
+    </div>
   </div>
   <button id="sb1a" onclick="next1();" class="startbutton">Ok. What else?</button>
   <button id="sb1b" onclick="startGame();" class="startbutton">Skip instructions and start game.</button>
 </div>
-<div id="startdiv1b" class="message">
-  <div style="font-weight: bold">Bonus!</div>
+<div id="startdiv1b" class="message" style="background: #FFFFDD; color: #224422;">
+  <div style="font-weight: bold;">Bonus!</div>
   <div style="font-family: Verdana, serif; font-size: 14px;">
-    <div class="helptext">By the way, the source code for this page—along with licensing terms for its use—can be viewed by using your web browser's "view source" feature. (Long story, short: The game is a single, self-contained xml file. You may view, use, modify, and distribute it under the terms of the GNU Affero General Public License).</div>
+    <div class="helptext">
+      By the way, the source code for this page—along with licensing terms for its use—can be viewed by using your web browser's "view source" feature.
+      (Long story, short: The game is a single, self-contained xml file. You may view, use, modify, and distribute it under the terms of the GNU Affero General Public License).
+    </div>
   </div>
 </div>
 
-<div id="start2" class="message" style="display: none">
+<div id="start2" class="message" style="display: none;">
   <div style="font-family: Verdana, serif; font-size: 14px;">
-    <div class="helptext">Play continues until all cards have been moved to the piles on the right, or else discarded. You do not get points for discarded cards.</div>
-    <div class="helptext">Once again the standard HBT card strength and point system applies: Sevens and nines are worth 5 points, jacks are worth jack (0 points), and everything else is worth 1 point. This makes a total of 60 points.</div>
-    <div class="helptext">In HBT Solitaire, 55 points or more is considered a win. This means you can only discard up to five one-point cards <span style="font-weight: bold">OR</span> one five-point card. Or you can get all 60 points for a perfect score!</div>
+    <div class="helptext">
+      Play continues until all cards have been moved to the piles on the right, or else discarded.
+      You do not get points for discarded cards.
+    </div>
+    <div class="helptext">
+      Once again the standard HBT card strength and point system applies: Sevens and nines are worth 5 points, jacks are worth jack (0 points), and everything else is worth 1 point.
+      This makes a total of 60 points.
+    </div>
+    <div class="helptext">
+      In HBT Solitaire, 55 points or more is considered a win.
+      This means you can only discard up to five one-point cards <span style="font-weight: bold;">OR</span> one five-point card.
+      Or you can get all 60 points for a perfect score!
+    </div>
   </div>
   <button id="sb2a" onclick="waitgoback();" class="startbutton">Wait, go back.</button>
   <button id="sb2b" onclick="startGame();" class="startbutton">Got it. Let's start the game.</button>
-  <button id="sb2c" onclick="stopReviewingInstructions();" class="startbutton" style="display: none">Ok, I'm done.</button>
+  <button id="sb2c" onclick="stopReviewingInstructions();" class="startbutton" style="display: none;">Ok, I'm done.</button>
 </div>
 
-<div id="showspecial" class="message" style="display: none">
-  <div style="font-weight: bold">These cards will be face-down.</div>
+<div id="showspecial" class="message" style="display: none;">
+  <div style="font-weight: bold;">These cards will be face-down.</div>
   <div style="font-family: Verdana, serif; font-size: 14px;">
-    <div class="helptext">Remember, the jacks will change the trump and <span style="font-weight: bold; color: black">Tanner Ace of Spades</span> will finish and restart a pile. The last card is a random card from the deck that you will need to be prepared for (or else take your chances...).</div>
+    <div class="helptext">
+      Remember, the jacks will change the trump suit and <span style="font-weight: bold; color: black;">Tanner Ace of Spades</span> will finish and restart a pile.
+      The last card is a random card from the deck that you will need to be prepared to play...
+      or else take your chances (once you flip over a card you <span style="font-style: italic;">must</span> play it next).</div>
   </div>
   <button onclick="startPlaying();" class="startbutton">Ok</button>
 </div>
 
-<div id="scoreboard" class="message" style="display: none; position: absolute; z-index: 0; font-size: 20px;">
+<div id="scoreboard" class="message" style="display: none; position: absolute; z-index: 0; font-size: 20px; text-align: center;">
   <div>@ <span id="winspan">0</span>/60 points</div>
-  <div style="font-weight: light; font-size: 60%">(Lost <span id="lostspan">0</span> points)</div>
-  <button id="instructionbutton" onclick="reviewInstructions();">Review Instructions</button><br/>
-  <button id="undobutton" onclick="undoodle();" style="padding: 0 20px; font-size: 25px;" disabled="true">Undo</button>
+  <div style="font-weight: light; font-size: 60%;">(Lost <span id="lostspan">0</span> points)</div>
+  <button id="instructionbutton" onclick="reviewInstructions();" style="margin: 3px;">Review Instructions</button><br/>
+  <button id="undobutton" onclick="undoodle();" style="padding: 0 20px; font-size: 25px; margin: 3px;" disabled="true">Undo</button>
 </div>
 
 <div id="gameover" class="message" style="display: none; position: absolute;">
-  <div id="resultdiv" class="helptext">You might have won!</div>
+  <div id="resultdiv" class="helptext" style="font-weight: bold;">You might have won!</div>
   <div id="history" style="font-family: Verdana, serif; font-size: 14px; display: none;">
     <div class="helptext">Your previous scores were:</div>
     <div id="allscores" class="helptext">(n/a)</div>
@@ -751,6 +839,8 @@ function stopReviewingInstructions() {
 </body></html>
 
 <!--
+
+Chapter 5: "Appendix A" (The GNU Affero General Public License)
 
                     GNU AFFERO GENERAL PUBLIC LICENSE
                        Version 3, 19 November 2007
