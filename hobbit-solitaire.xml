@@ -483,6 +483,8 @@ function upclick(event) {
 };
 
 function startPlaying() {
+  document.getElementById("undobutton").disabled = true;
+
   for (pileName in piles) { piles[pileName].name = pileName; }
   
   document.getElementById("showspecial").style.display = "none";
