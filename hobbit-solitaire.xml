@@ -4,7 +4,7 @@
 
 Chapter 0: Title Page (Legalese)
 
-     HOBBIT Solitaire
+     HoBBiT Solitaire
      Copyright (c) 2016 by the original author(s).
 
      This program is free software: you can redistribute it and/or
@@ -39,7 +39,7 @@ comes with a blessing:
      I believe in you.
 
 -->
-<title>HOBBIT Solitaire</title>
+<title>HoBBiT Solitaire</title>
 <!--
 
 Chapter 2: Style!
@@ -768,19 +768,19 @@ So without any further ado...
 <div id="rightpile1_placeholder" class="placeholder"></div>
 
 <div id="startdiv" class="message">
-  <div id="welcometitle" style="font-weight: bold;">Welcome to <span class="hobbit"><span class="h">H</span>O<span class="bb">BB</span>I<span class="t">T</span></span> Solitaire!</div>
+  <div id="welcometitle" style="font-weight: bold;">Welcome to <span class="hobbit"><span class="h">H</span>o<span class="bb">BB</span>i<span class="t">T</span></span> Solitaire!</div>
   <div style="font-family: Verdana, serif; font-size: 14px;">
     <div class="helptext">
-      In <span class="hobbit"><span class="h">H</span>O<span class="bb">BB</span>I<span class="t">T</span></span> Solitaire you are moving cards from the three piles on the left to the three piles on the right.
+      In <span class="hobbit"><span class="h">H</span>o<span class="bb">BB</span>i<span class="t">T</span></span> Solitaire you are moving cards from the three piles on the left to the three piles on the right.
       You can only move a card onto a pile on the right if it defeats the top card on the pile.
     </div>
     <div class="helptext">
-      <span class="hobbit"><span class="h">H</span>O<span class="bb">BB</span>I<span class="t">T</span></span> Solitaire uses the standard <span class="hobbit"><span class="h">H</span>O<span class="bb">BB</span>I<span class="t">T</span></span> card strength and point system: Kings are the strongst, followed by queens, aces, 10s, 9s, 8s, then 7s.
+      <span class="hobbit"><span class="h">H</span>o<span class="bb">BB</span>i<span class="t">T</span></span> Solitaire uses the standard <span class="hobbit"><span class="h">H</span>o<span class="bb">BB</span>i<span class="t">T</span></span> card strength and point system: Kings are the strongst, followed by queens, aces, 10s, 9s, 8s, then 7s.
       <span style="font-weight: bold; color: red;">Hwaiet King of Hearts</span>, <span style="font-weight: bold; color: red;">B'shenzy•Boo Quean of Diamonds</span>, and <span style="font-weight: bold; color: black;">Tanner Ace of Spades</span> are always high trump, stronger than the king of the current trump suit.
     </div>
     <div class="helptext">
       A trump card will always win against a non-trump card.
-      In <span class="hobbit"><span class="h">H</span>O<span class="bb">BB</span>I<span class="t">T</span></span> Solitaire, the three high trump cards "complete" a pile so that you can re-start playing on it.
+      In <span class="hobbit"><span class="h">H</span>o<span class="bb">BB</span>i<span class="t">T</span></span> Solitaire, the three high trump cards "complete" a pile so that you can re-start playing on it.
     </div>
     <div class="helptext">
       At the beginning of the game, before any jacks have been placed onto the Jack Stack, there is no trump suit.
@@ -808,11 +808,11 @@ So without any further ado...
       You do not get points for discarded cards.
     </div>
     <div class="helptext">
-      Once again the standard <span class="hobbit"><span class="h">H</span>O<span class="bb">BB</span>I<span class="t">T</span></span> card strength and point system applies: Sevens and nines are worth 5 points, jacks are worth jack (0 points), and everything else is worth 1 point.
+      Once again the standard <span class="hobbit"><span class="h">H</span>o<span class="bb">BB</span>i<span class="t">T</span></span> card strength and point system applies: Sevens and nines are worth 5 points, jacks are worth jack (0 points), and everything else is worth 1 point.
       This makes a total of 60 points.
     </div>
     <div class="helptext">
-      In <span class="hobbit"><span class="h">H</span>O<span class="bb">BB</span>I<span class="t">T</span></span> Solitaire, 55 points or more is considered a win.
+      In <span class="hobbit"><span class="h">H</span>o<span class="bb">BB</span>i<span class="t">T</span></span> Solitaire, 55 points or more is considered a win.
       This means you can only discard up to five one-point cards <span style="font-weight: bold;">OR</span> one five-point card.
       Or you can get all 60 points for a perfect score!
     </div>
