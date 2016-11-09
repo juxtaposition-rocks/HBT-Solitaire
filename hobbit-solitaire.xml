@@ -22,7 +22,7 @@ Chapter 0: Title Page (Legalese)
      the end.)
 
 -->
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xlink="http://www.w3.org/1999/xlink">
 <head>
 <!--
 
@@ -73,6 +73,7 @@ Good old-fassion CSS inside a an HTML <style> element, eh?
   background: #CCCCFF;
   font-family: Verdana, serif; font-size: 18px; font-weight: bold;
   white-space: nowrap;
+  font-size: 16px;
 }
 
 .placeholder {
@@ -103,7 +104,18 @@ Good old-fassion CSS inside a an HTML <style> element, eh?
   width: 100%;
   text-align: center;
 }
-
+.qdecore {
+  font-weight: normal;
+  text-align: center;
+  padding-top: 25px;
+  font-size: 30px;
+}
+.kdecore {
+  font-weight: normal;
+  text-align: center;
+  padding-top: 10px;
+  font-size: 45px;
+}
 .fancy {
   padding: 0; margin-top: -5px;
   width: 100%;
@@ -478,8 +490,8 @@ function upclick(event) {
     
     mouseDragInfo = false;
   }
-  event.stopPropagation();
-  event.preventDefault();
+  //event.stopPropagation();
+  //event.preventDefault();
 };
 
 function startPlaying() {
@@ -561,7 +573,7 @@ function startGame() {
   for (i = 0 ; i < 6; ++i) {
     var elem = document.getElementById(smallDeck[i]);
     elem.style.left = (20 + i*130) + "px";
-    elem.style.top =  "180px";
+    elem.style.top =  "255px";
     elem.style.display = "block";
   }
 };
@@ -682,8 +694,14 @@ So without any further ado...
   <div>♣A</div>
   <div class="decore"> <br/> <br/>♣</div>
 </div></div>
-<div id="cq" class="card"><div id="cq_front" class="blacksuit">♣Q</div></div>
-<div id="ck" class="card"><div id="ck_front" class="blacksuit">♣K</div></div>
+<div id="cq" class="card"><div id="cq_front" class="blacksuit">
+  <div>♣Q</div>
+  <div class="qdecore">♛</div>
+</div></div>
+<div id="ck" class="card"><div id="ck_front" class="blacksuit">
+  <div>♣K</div>
+  <div class="kdecore">♚</div>
+</div></div>
 
 <div id="sj" class="card"><div id="sj_front" class="blacksuit">♠J</div></div>
 <div id="s7" class="card"><div id="s7_front" class="blacksuit">
@@ -706,8 +724,14 @@ So without any further ado...
   <div>♠A</div>
   <div class="fancy" style="font-family: Papyrus, fantasy;">T</div>
 </div></div>
-<div id="sq" class="card"><div id="sq_front" class="blacksuit">♠Q</div></div>
-<div id="sk" class="card"><div id="sk_front" class="blacksuit">♠K</div></div>
+<div id="sq" class="card"><div id="sq_front" class="blacksuit">
+  <div>♠Q</div>
+  <div class="qdecore">♛</div>
+</div></div>
+<div id="sk" class="card"><div id="sk_front" class="blacksuit">
+  <div>♠K</div>
+  <div class="kdecore">♚</div>
+</div></div>
 
 <div id="dj" class="card"><div id="dj_front" class="redsuit">♦J</div></div>
 <div id="d7" class="card"><div id="d7_front" class="redsuit">
@@ -734,7 +758,10 @@ So without any further ado...
   <div>♦Q</div>
   <div class="fancyb" style="font-family: Curlz MT, fantasy;">B•B</div>
 </div></div>
-<div id="dk" class="card"><div id="dk_front" class="redsuit">♦K</div></div>
+<div id="dk" class="card"><div id="dk_front" class="redsuit">
+  <div>♦K</div>
+  <div class="kdecore">♚</div>
+</div></div>
 
 <div id="hj" class="card"><div id="hj_front" class="redsuit">♥J</div></div>
 <div id="h7" class="card"><div id="h7_front" class="redsuit">
@@ -757,7 +784,10 @@ So without any further ado...
   <div>♥A</div>
   <div class="decore"> <br/> <br/>♥</div>
 </div></div>
-<div id="hq" class="card"><div id="hq_front" class="redsuit">♥Q</div></div>
+<div id="hq" class="card"><div id="hq_front" class="redsuit">
+  <div>♥Q</div>
+  <div class="qdecore">♛</div>
+</div></div>
 <div id="hk" class="card"><div id="hk_front" class="redsuit">
   <div>♥K</div>
   <div class="fancy" style="font-family: Curlz MT, fantasy;">H</div>
