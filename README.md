@@ -1,5 +1,3 @@
-# HoBBiT Solitaire
+# HOBBIT SOLITAIRE
 
-*HoBBiT* Solitaire card game for the web.
-
-Source code for http://juxtaposition.rocks/hobbit-solitaire/ .
+This project has moved to https://gitlab.com/juxtaposition-rocks/hobbit-solitaire.
